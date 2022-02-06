@@ -1,15 +1,17 @@
 import React from 'react';
 import './reset.scss';
-import { Route } from 'react-router-dom';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Home from './pages/home';
+import Tutorial from './pages/tutorial';
 
 const App: React.FC = () => {
   return (
-    <div>
-      {/* <Route path="/" exact component={Article} />
-      <Route path="/create" component={ArticleCreate} />
-      <Route path="/detail/:id" component={ArticleDetail} />
-      <Route path="/update/:id" component={ArticleUpdate} /> */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="tutorial" element={<Tutorial />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
