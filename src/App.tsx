@@ -1,6 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import './reset.scss';
+import './App.scss';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Home from './pages/home';
 import Tutorial from './pages/tutorial';
