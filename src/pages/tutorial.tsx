@@ -1,7 +1,23 @@
 import React from 'react';
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Tutorial = () => {
+  const navigate = useNavigate();
+
+  const pushAlert = (): void => {
+    alert('클릭하지마세요!');
+  };
+
+  const pushConsole = (): void => {
+    console.log('콘솔창 출력!');
+  };
+
+  const goHome = (): void => {
+    navigate('/');
+  };
+
+  const myFunc = [pushAlert, pushConsole, goHome];
   return (
     <div id="tutorial">
       <h2>Tutorial</h2>
@@ -22,15 +38,15 @@ const Tutorial = () => {
         <Button text="disabled on" disabled={true} />
       </div>
       <div className="borderRadius">
-        <Button text="s br" size="s" radius={true} />
-        <Button text="m br" size="m" color="blue" radius={true} />
-        <Button text="l br" size="l" color="green" radius={true} />
-        <Button text="xl br" size="xl" color="orange" radius={true} />
+        <Button text="s br" size="s" radius={true} func={2} />
+        <Button text="m br" size="m" color="blue" radius={true} func={2} />
+        <Button text="l br" size="l" color="green" radius={true} func={2} />
+        <Button text="xl br" size="xl" color="orange" radius={true} func={2} />
       </div>
       <div className="function">
-        <Button text="기능1" />
-        <Button text="기능2" />
-        <Button text="기능3" />
+        <Button text="기능1" func={0} />
+        <Button text="기능2" func={1} />
+        <Button text="기능3" func={2} />
       </div>
     </div>
   );

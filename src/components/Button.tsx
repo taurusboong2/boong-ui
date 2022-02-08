@@ -7,7 +7,7 @@ type Button = {
   size?: 's' | 'm' | 'l' | 'xl';
   disabled?: boolean;
   radius?: boolean;
-  func?: 0 | 1 | 2;
+  func?: number;
 };
 
 const Button = ({ text, color, size, disabled, radius, func }: Button) => {
@@ -29,7 +29,10 @@ const Button = ({ text, color, size, disabled, radius, func }: Button) => {
 
   return (
     <div className="btn_wrap">
-      <button className={`${color} ${size} ${disabled ? 'dis' : null} ${radius ? 'br' : null}`} onClick={myFunc[func]}>
+      <button
+        className={`${color} ${size} ${disabled ? 'dis' : null} ${radius ? 'br' : null}`}
+        onClick={myFunc?.[func ?? -1]}
+      >
         {text}
       </button>
     </div>
