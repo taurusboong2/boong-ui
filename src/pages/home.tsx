@@ -4,9 +4,7 @@ const Home = () => {
   return (
     <div className="home">
       <h2 className="title">Home page</h2>
-      <Link to="tutorial">튜토리얼</Link>
-      <Link to="tutorial">튜토리얼</Link>
-      <Link to="tutorial">튜토리얼</Link>
+      <Link to="tutorial">Btn 튜토리얼</Link>
     </div>
   );
 };
