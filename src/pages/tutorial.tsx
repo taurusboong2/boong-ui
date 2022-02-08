@@ -1,23 +1,7 @@
 import React from 'react';
 import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom';
 
 const Tutorial = () => {
-  const navigate = useNavigate();
-
-  const pushAlert = (): void => {
-    alert('클릭하지마세요!');
-  };
-
-  const pushConsole = (): void => {
-    console.log('콘솔창 출력!');
-  };
-
-  const goHome = (): void => {
-    navigate('/');
-  };
-
-  const myFunc = [pushAlert, pushConsole, goHome];
   return (
     <div id="tutorial">
       <h2>Tutorial</h2>
