@@ -1,7 +1,9 @@
 import React from 'react';
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Tutorial = () => {
+  const navigate = useNavigate();
   return (
     <div id="tutorial">
       <h2>Tutorial</h2>
@@ -28,9 +30,24 @@ const Tutorial = () => {
         <Button text="xl br" size="xl" color="orange" radius={true} />
       </div>
       <div className="function">
-        <Button text="기능1" func={0} />
-        <Button text="기능2" func={1} />
-        <Button text="기능3" func={2} />
+        <Button
+          text="기능1"
+          onClick={() => {
+            alert('클릭하지마세요!');
+          }}
+        />
+        <Button
+          text="기능2"
+          onClick={() => {
+            console.log('콘솔창 출력!');
+          }}
+        />
+        <Button
+          text="기능3"
+          onClick={() => {
+            navigate('/');
+          }}
+        />
       </div>
     </div>
   );
