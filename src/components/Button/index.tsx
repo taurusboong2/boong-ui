@@ -1,4 +1,4 @@
-import React, { Children, FC } from 'react';
+import React, { FC } from 'react';
 
 type Props = {
   color?: 'blue' | 'green' | 'orange';
@@ -14,7 +14,7 @@ const Button: FC<Props> = props => {
   const { children, color, size, radius, ...restProps } = props;
 
   return (
-    <div className="btn_wrap">
+    <div className={'btn_wrap'}>
       <button className={`${color} ${size} ${radius ? 'br' : null}`} {...restProps}>
         {children}
       </button>
