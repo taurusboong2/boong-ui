@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { hot } from 'react-hot-loader/root';
 import './reset.scss';
 import './App.scss';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
+
 import Home from './pages/home';
-import Tutorial from './pages/tutorial';
+const Tutorial = React.lazy(() => import('./pages/tutorial'));
 
 const NotFound = () => {
   return (
@@ -17,11 +18,13 @@ const NotFound = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tutorial" element={<Tutorial />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<></>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 };

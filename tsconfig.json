@@ -13,7 +13,7 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "downlevelIteration": true,

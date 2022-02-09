@@ -8,12 +8,21 @@ const Tutorial = () => {
     <div id="tutorial">
       <h2>Tutorial</h2>
       <div className="color">
-        <Button text="버튼1" />
-        <Button text="버튼2" color="blue" />
-        <Button text="버튼3" color="green" />
-        <Button text="버튼4" color="orange" />
+        <Button>
+          <strong>버튼1</strong>
+        </Button>
+        <Button color="blue">버튼2</Button>
+        <Button color="green">버튼3</Button>
+        <Button color="orange">버튼4</Button>
       </div>
-      <div className="size">
+      <div>
+        <div className="btn_wrap">
+          <input />
+          adfasdf
+          <button>asdfsadf</button>
+        </div>
+      </div>
+      {/* <div className="size">
         <Button text="s 사이즈" size="s" />
         <Button text="m 사이즈" size="m" />
         <Button text="l 사이즈" size="l" />
@@ -50,7 +59,7 @@ const Tutorial = () => {
           id="df"
           type="submit"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
