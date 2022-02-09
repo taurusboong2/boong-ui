@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../components/Button';
+import Button from '../components/Button/index';
 import { useNavigate } from 'react-router-dom';
 
 const Tutorial = () => {
@@ -22,44 +22,53 @@ const Tutorial = () => {
           <button>asdfsadf</button>
         </div>
       </div>
-      {/* <div className="size">
-        <Button text="s 사이즈" size="s" />
-        <Button text="m 사이즈" size="m" />
-        <Button text="l 사이즈" size="l" />
-        <Button text="xl 사이즈" size="xl" />
+      <div className="size">
+        <Button size="s">size s</Button>
+        <Button size="m">size m</Button>
+        <Button size="l">size l</Button>
+        <Button size="xl">size xl</Button>
       </div>
       <div className="disabled">
-        <Button text="disabled off" disabled={false} />
-        <Button text="disabled on" disabled />
+        <Button disabled={false}>disabled off</Button>
+        <Button disabled>disabled on</Button>
       </div>
       <div className="borderRadius">
-        <Button text="s br" size="s" radius={true} />
-        <Button text="m br" size="m" color="blue" radius={true} />
-        <Button text="l br" size="l" color="green" radius={true} />
-        <Button text="xl br" size="xl" color="orange" radius={true} />
+        <Button size="s" radius={true} />
+        <Button size="m" color="blue" radius={true}>
+          m br
+        </Button>
+        <Button size="l" color="green" radius={true}>
+          l br
+        </Button>
+        <Button size="xl" color="orange" radius={true}>
+          xl br
+        </Button>
       </div>
       <div className="function">
         <Button
-          text="기능1"
           onClick={() => {
             alert('클릭하지마세요!');
           }}
-        />
+        >
+          기능1
+        </Button>
         <Button
-          text="기능2"
           onClick={() => {
             console.log('콘솔창 출력!');
           }}
-        />
+        >
+          기능2
+        </Button>
         <Button
-          text="기능3"
           onClick={() => {
             navigate('/');
           }}
           id="df"
           type="submit"
-        />
-      </div> */}
+        >
+          기능3
+        </Button>
+      </div>
     </div>
   );
 };

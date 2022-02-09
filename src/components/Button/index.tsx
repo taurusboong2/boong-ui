@@ -6,9 +6,9 @@ type Props = {
   radius?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-type SampleDivProps = {
-  text: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+// type SampleDivProps = {
+//   text: string;
+// } & React.HTMLAttributes<HTMLDivElement>;
 
 const Button: FC<Props> = props => {
   const { children, color, size, radius, ...restProps } = props;
