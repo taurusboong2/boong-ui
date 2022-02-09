@@ -1,19 +1,18 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 
-type Button = {
+type Props = {
   text?: string;
   color?: 'blue' | 'green' | 'orange';
   size?: 's' | 'm' | 'l' | 'xl';
-  disabled?: boolean;
   radius?: boolean;
-  onClick?: () => void;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ text, color, size, disabled, radius, onClick }: Button) => {
+const Button: FC<Props> = props => {
+  const { text, color, size, radius, ...restProps } = props;
+
   return (
     <div className="btn_wrap">
-      <button className={`${color} ${size} ${disabled ? 'dis' : null} ${radius ? 'br' : null}`} onClick={onClick}>
+      <button className={`${color} ${size} ${radius ? 'br' : null}`} {...restProps}>
         {text}
       </button>
     </div>

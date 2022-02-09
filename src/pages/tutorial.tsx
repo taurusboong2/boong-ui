@@ -21,7 +21,7 @@ const Tutorial = () => {
       </div>
       <div className="disabled">
         <Button text="disabled off" disabled={false} />
-        <Button text="disabled on" disabled={true} />
+        <Button text="disabled on" disabled />
       </div>
       <div className="borderRadius">
         <Button text="s br" size="s" radius={true} />
@@ -47,6 +47,8 @@ const Tutorial = () => {
           onClick={() => {
             navigate('/');
           }}
+          id="df"
+          type="submit"
         />
       </div>
     </div>

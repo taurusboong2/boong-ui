@@ -90,7 +90,7 @@
       padding: 25px 32px;
     }
 
-    &.dis {
+    &:disabled {
       pointer-events: none;
       background-color: rgb(189, 182, 182);
       color: rgb(233, 92, 92);
