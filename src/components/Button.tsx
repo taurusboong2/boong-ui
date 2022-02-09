@@ -1,7 +1,6 @@
-import React, { FC } from 'react';
+import React, { Children, FC } from 'react';
 
 type Props = {
-  text?: string;
   color?: 'blue' | 'green' | 'orange';
   size?: 's' | 'm' | 'l' | 'xl';
   radius?: boolean;
@@ -12,12 +11,12 @@ type SampleDivProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const Button: FC<Props> = props => {
-  const { text, color, size, radius, ...restProps } = props;
+  const { children, color, size, radius, ...restProps } = props;
 
   return (
     <div className="btn_wrap">
       <button className={`${color} ${size} ${radius ? 'br' : null}`} {...restProps}>
-        {text}
+        {children}
       </button>
     </div>
   );
