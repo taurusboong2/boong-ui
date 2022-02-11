@@ -21,6 +21,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tutorial" element={<Tutorial />} />
+          <Route path="/tutorial-styled" element={<Tutorial />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
