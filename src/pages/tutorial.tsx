@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../components/Button/index';
 import { useNavigate } from 'react-router-dom';
+import '../tutorial.module.scss';
 
 const Tutorial = () => {
   const navigate = useNavigate();
