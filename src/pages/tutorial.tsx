@@ -15,13 +15,6 @@ const Tutorial = () => {
         <Button color="green">버튼3</Button>
         <Button color="orange">버튼4</Button>
       </div>
-      <div>
-        <div className="btn_wrap">
-          <input />
-          adfasdf
-          <button>asdfsadf</button>
-        </div>
-      </div>
       <div className="size">
         <Button size="s">size s</Button>
         <Button size="m">size m</Button>
@@ -33,7 +26,9 @@ const Tutorial = () => {
         <Button disabled>disabled on</Button>
       </div>
       <div className="borderRadius">
-        <Button size="s" radius={true} />
+        <Button size="s" radius={true}>
+          s br true
+        </Button>
         <Button size="m" color="blue" radius={true}>
           m br
         </Button>

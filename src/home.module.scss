@@ -1,0 +1,33 @@
+:global {
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    h2.title {
+      width: 100%;
+      text-align: center;
+      background-color: burlywood;
+      font-size: 1.7rem;
+      font-weight: bold;
+      padding: 5px 0;
+    }
+    a {
+      margin: 15px 0;
+    }
+    .color,
+    .size,
+    .disabled,
+    .borderRadius,
+    .function {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    .size,
+    .borderRadius {
+      align-items: center;
+    }
+  }
+}
