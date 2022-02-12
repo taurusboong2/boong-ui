@@ -65,25 +65,25 @@
       &.blue {
         background-color: #409eff;
         color: #fff;
-      }
-      &.blue:hover {
-        background-color: darken(#409eff, 10%);
+        &:hover {
+          background-color: darken(#409eff, 10%);
+        }
       }
 
       &.green {
         background-color: #67c23a;
         color: #fff;
-      }
-      &.green:hover {
-        background-color: darken(#67c23a, 10%);
+        &:hover {
+          background-color: darken(#67c23a, 10%);
+        }
       }
 
       &.orange {
         background-color: #e6a23c;
         color: #fff;
-      }
-      &.orange:hover {
-        background-color: darken(#e6a23c, 10%);
+        &:hover {
+          background-color: darken(#e6a23c, 10%);
+        }
       }
 
       &.s {

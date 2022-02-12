@@ -1,32 +1,54 @@
 import React from 'react';
 import Button from '../components/ButtonStyled';
 import { useNavigate } from 'react-router-dom';
-import '../tutorial.module.scss';
+import styled from 'styled-components';
+
+const Stutorial = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 5px 0;
+    background-color: brown;
+    color: #fff;
+  }
+`;
+
+const SdivBox = styled.div`
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  align-items: center;
+`;
 
 const Tutorial = () => {
   const navigate = useNavigate();
   return (
-    <div id="tutorial">
+    <Stutorial id="tutorial">
       <h2>Tutorial Styled</h2>
-      <div className="color">
-        <Button>
-          <strong>버튼1</strong>
-        </Button>
+      <SdivBox className="color">
+        <Button>버튼1</Button>
         <Button color="blue">버튼2</Button>
         <Button color="green">버튼3</Button>
         <Button color="orange">버튼4</Button>
-      </div>
-      <div className="size">
+      </SdivBox>
+      <SdivBox className="size">
         <Button size="s">size s</Button>
         <Button size="m">size m</Button>
         <Button size="l">size l</Button>
         <Button size="xl">size xl</Button>
-      </div>
-      <div className="disabled">
+      </SdivBox>
+      <SdivBox className="disabled">
         <Button disabled={false}>disabled off</Button>
         <Button disabled>disabled on</Button>
-      </div>
-      <div className="borderRadius">
+      </SdivBox>
+      <SdivBox className="borderRadius">
         <Button size="s" radius={true}>
           s br true
         </Button>
@@ -39,21 +61,21 @@ const Tutorial = () => {
         <Button size="xl" color="orange" radius={true}>
           xl br
         </Button>
-      </div>
-      <div className="function">
+      </SdivBox>
+      <SdivBox className="function">
         <Button
           onClick={() => {
             alert('클릭하지마세요!');
           }}
         >
-          기능1
+          기능1 alert
         </Button>
         <Button
           onClick={() => {
             console.log('콘솔창 출력!');
           }}
         >
-          기능2
+          기능2 console
         </Button>
         <Button
           onClick={() => {
@@ -62,10 +84,10 @@ const Tutorial = () => {
           id="df"
           type="submit"
         >
-          기능3
+          기능3 home이동
         </Button>
-      </div>
-    </div>
+      </SdivBox>
+    </Stutorial>
   );
 };
 
