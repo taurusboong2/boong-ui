@@ -6,7 +6,7 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Home from './pages/home';
 const Tutorial = React.lazy(() => import('./pages/tutorial'));
 const TutorialStyled = React.lazy(() => import('./pages/tutorial-styled'));
-import ArticleList from './pages/articleList';
+import Pagination from './pages/pagination';
 
 const NotFound = () => {
   return (
@@ -24,7 +24,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/tutorial-styled" element={<TutorialStyled />} />
-          <Route path="/articles" element={<ArticleList />} />
+          <Route path="/pagination" element={<Pagination />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

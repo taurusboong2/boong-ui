@@ -8,6 +8,7 @@ const Home = () => {
       <h2 className="title">Home page</h2>
       <Link to="tutorial">Btn 튜토리얼</Link>
       <Link to="tutorial-styled">Btn 튜토리얼(styled) </Link>
+      <Link to="pagination">Pagination</Link>
     </div>
   );
 };
