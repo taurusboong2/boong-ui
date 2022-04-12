@@ -1,22 +1,27 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Articles from '../components/Articles';
 
 const Pagination = () => {
   const [articles, setArticles]: any = useState([]);
+  const [page, setPage]: any = useState(1);
+  const myData = articles.data;
 
   useEffect(() => {
     axios.get('http://localhost:1337/api/articles/').then(res => {
-      setArticles(res.data.data);
+      setArticles(res.data);
     });
   }, []);
+
+  console.log(`데이타입니다`, articles);
 
   return (
     <Wrap>
       <header>Article List</header>
 
       <Main>
-        {articles.map(({ id, attributes }): any => {
+        {myData.map(({ id, attributes }): any => {
           return (
             <ArticleList key={id}>
               <p>{id}</p>
@@ -26,6 +31,8 @@ const Pagination = () => {
           );
         })}
       </Main>
+
+      <Articles total={articles} page={page} setPage={setPage} />
     </Wrap>
   );
 };
