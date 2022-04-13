@@ -5,33 +5,35 @@ import Articles from '../components/Articles';
 
 const Pagination = () => {
   const [articles, setArticles]: any = useState([]);
+  const [articleData, setArticleData]: any = useState([]);
   const [page, setPage]: any = useState(1);
-  const myData = articles.data;
 
   useEffect(() => {
     axios.get('http://localhost:1337/api/articles/').then(res => {
+      let data = res.data;
       setArticles(res.data);
+      setArticleData(data.data);
     });
   }, []);
 
-  console.log(`articles : `, articles);
-  console.log(`Data : `, articles.data);
-  console.log(`Meta : `, articles.meta);
+  // console.log(`articles : `, articles);
+  // console.log(`Data : `, articles.data);
+  // console.log(`Meta : `, articles.meta);
+  console.log(`데이타 : `, articleData);
 
   return (
     <Wrap>
       <header>Article List</header>
 
       <Main>
-        {/* {articles.map(({ e, id }): any => {
+        {articleData.map((e, i): any => {
           return (
-            <ArticleList key={id}>
-              <p>{id}</p>
+            <ArticleList key={i}>
+              <p>{e.id}</p>
               <h3>{e.attributes.title}</h3>
-              <p>{e.attributes.description}</p>
             </ArticleList>
           );
-        })} */}
+        })}
       </Main>
 
       <Articles total={articles} page={page} setPage={setPage} />
