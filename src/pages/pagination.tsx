@@ -9,6 +9,11 @@ const Pagination: React.FunctionComponent = () => {
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage]: any = useState(1);
 
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    const value = e.currentTarget.value;
+    setPageSize(Number(value));
+  };
+
   useEffect(() => {
     axios.get('http://localhost:1337/api/articles/').then(res => {
       let data = res.data;
@@ -17,21 +22,17 @@ const Pagination: React.FunctionComponent = () => {
     });
   }, []);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const newValue: number = e.currentTarget.value;
-    setPageSize(newValue);
-  };
-
   // console.log(`articles : `, articles);
   // console.log(`Data : `, articles.data);
   // console.log(`Meta : `, articles.meta);
   console.log(`데이타 : `, articleData);
+  console.log(`페이지사이즈 확인 : `, pageSize);
 
   return (
     <Wrap>
       <header>Article List</header>
 
-      <select typeof="number" onChange={onChange}>
+      <select typeof="number" value={pageSize} onChange={onChange}>
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={20}>20</option>
