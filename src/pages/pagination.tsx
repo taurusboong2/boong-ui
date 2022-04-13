@@ -14,22 +14,24 @@ const Pagination = () => {
     });
   }, []);
 
-  console.log(`데이타입니다`, articles);
+  console.log(`articles : `, articles);
+  console.log(`Data : `, articles.data);
+  console.log(`Meta : `, articles.meta);
 
   return (
     <Wrap>
       <header>Article List</header>
 
       <Main>
-        {myData.map(({ id, attributes }): any => {
+        {/* {articles.map(({ e, id }): any => {
           return (
             <ArticleList key={id}>
               <p>{id}</p>
-              <h3>{attributes.title}</h3>
-              <p>{attributes.description}</p>
+              <h3>{e.attributes.title}</h3>
+              <p>{e.attributes.description}</p>
             </ArticleList>
           );
-        })}
+        })} */}
       </Main>
 
       <Articles total={articles} page={page} setPage={setPage} />

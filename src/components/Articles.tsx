@@ -10,13 +10,6 @@ const Articles = ({ total, page, setPage }) => {
         <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
           ←
         </Button>
-        {/* {Array(numPage)
-          .fill()
-          .map((_, i) => (
-            <Button key={i + 1} onClick={() => setPage(i + 1)}>
-              {i + 1}
-            </Button>
-          ))} */}
         <Button onClick={() => setPage(page + 1)} disabled={page === numPage}>
           →
         </Button>
