@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
 
-const Pagination = () => {
+const Pagination: React.FunctionComponent = () => {
   const [articles, setArticles]: any = useState([]);
   const [articleData, setArticleData]: any = useState([]);
+  const [pageSize, setPageSize] = useState(10);
   const [page, setPage]: any = useState(1);
 
   useEffect(() => {
@@ -16,6 +17,11 @@ const Pagination = () => {
     });
   }, []);
 
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    const newValue: number = e.currentTarget.value;
+    setPageSize(newValue);
+  };
+
   // console.log(`articles : `, articles);
   // console.log(`Data : `, articles.data);
   // console.log(`Meta : `, articles.meta);
@@ -24,6 +30,12 @@ const Pagination = () => {
   return (
     <Wrap>
       <header>Article List</header>
+
+      <select typeof="number" onChange={onChange}>
+        <option value={5}>5</option>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+      </select>
 
       <Main>
         {articleData.map((e, i): any => {
