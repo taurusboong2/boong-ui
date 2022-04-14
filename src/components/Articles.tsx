@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Articles = ({ total, page, setPage }) => {
-  const numPage = total / 10;
+  const numPage = total / page;
 
   return (
     <>

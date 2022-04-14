@@ -6,9 +6,10 @@ import Articles from '../components/Articles';
 
 const Pagination: React.FunctionComponent = () => {
   const [articles, setArticles]: any = useState([]);
-  const [articleData, setArticleData]: any = useState([]);
+  const [articleMeta, setArticleMeta]: any = useState([]);
   const [pageSize, setPageSize]: any = useState(10);
   const [page, setPage]: any = useState(1);
+  const [totalArticles, setTotalArticles] = useState(0);
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = e.currentTarget.value;
@@ -30,14 +31,14 @@ const Pagination: React.FunctionComponent = () => {
     getData().then(res => {
       const articleData = res.data;
       setArticles(articleData);
-      setArticleData(articleData.data);
+      setArticleMeta(res.meta);
+      setTotalArticles(articleMeta.pagination.total);
     });
   }, [page, pageSize]);
 
   console.log(`articles : `, articles);
-  // console.log(`Data : `, articles.data);
-  // console.log(`Meta : `, articles.meta);
-  console.log(`데이타 : `, articleData);
+  console.log(`meta값 : `, articleMeta);
+  console.log(`토탈값 : `, totalArticles);
   console.log(`페이지사이즈 확인 : `, pageSize);
 
   return (
@@ -63,7 +64,7 @@ const Pagination: React.FunctionComponent = () => {
         })}
       </Main>
 
-      <Articles total={articles} page={page} setPage={setPage} />
+      <Articles total={totalArticles} page={page} setPage={setPage} />
     </Wrap>
   );
 };
