@@ -7,7 +7,7 @@ import Articles from '../components/Articles';
 const Pagination: React.FunctionComponent = () => {
   const [articles, setArticles]: any = useState([]);
   const [articleData, setArticleData]: any = useState([]);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize]: any = useState(10);
   const [page, setPage]: any = useState(1);
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -15,19 +15,30 @@ const Pagination: React.FunctionComponent = () => {
     setPageSize(Number(value));
   };
 
+  const getData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+      );
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    axios.get('http://localhost:1337/api/articles/').then(res => {
-      let data = res.data;
-      setArticles(res.data);
-      setArticleData(data.data);
+    getData().then(res => {
+      const articleData = res.data;
+      setArticles(articleData);
+      setArticleData(articleData.data);
     });
   }, []);
 
-  // console.log(`articles : `, articles);
+  console.log(`articles : `, articles);
   // console.log(`Data : `, articles.data);
   // console.log(`Meta : `, articles.meta);
-  // console.log(`데이타 : `, articleData);
-  // console.log(`페이지사이즈 확인 : `, pageSize);
+  console.log(`데이타 : `, articleData);
+  console.log(`페이지사이즈 확인 : `, pageSize);
 
   return (
     <Wrap>
@@ -40,7 +51,7 @@ const Pagination: React.FunctionComponent = () => {
       </select>
 
       <Main>
-        {articleData.map((e, i): any => {
+        {articles.map((e, i): any => {
           return (
             <ArticleList key={i}>
               <Link to={{ pathname: `/detail/${e.id}` }}>
