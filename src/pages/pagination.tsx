@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
 
@@ -42,8 +43,10 @@ const Pagination: React.FunctionComponent = () => {
         {articleData.map((e, i): any => {
           return (
             <ArticleList key={i}>
-              <p>{e.id}</p>
-              <h3>{e.attributes.title}</h3>
+              <Link to={{ pathname: `/detail/${e.id}` }}>
+                <p>{e.id}</p>
+                <h3>{e.attributes.title}</h3>
+              </Link>
             </ArticleList>
           );
         })}
@@ -73,14 +76,16 @@ const Wrap = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  background-color: #e1e114;
+  background-color: #e2e2e2;
 `;
 
 const ArticleList = styled.div`
-  display: flex;
-  width: 300px;
-  justify-content: space-between;
-  margin: 15px auto;
+  a {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    margin: 15px auto;
+  }
 
   h3 {
     font-size: 18px;
