@@ -32,7 +32,7 @@ const Pagination: React.FunctionComponent = () => {
       setArticles(articleData);
       setArticleData(articleData.data);
     });
-  }, []);
+  }, [page, pageSize]);
 
   console.log(`articles : `, articles);
   // console.log(`Data : `, articles.data);
