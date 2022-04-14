@@ -7,7 +7,7 @@ import Home from './pages/home';
 const Tutorial = React.lazy(() => import('./pages/tutorial'));
 const TutorialStyled = React.lazy(() => import('./pages/tutorial-styled'));
 import Pagination from './pages/pagination';
-import Detail from './components/Detail';
+import Detail from './pages/detail';
 
 const NotFound = () => {
   return (

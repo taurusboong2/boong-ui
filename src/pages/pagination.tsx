@@ -26,8 +26,8 @@ const Pagination: React.FunctionComponent = () => {
   // console.log(`articles : `, articles);
   // console.log(`Data : `, articles.data);
   // console.log(`Meta : `, articles.meta);
-  console.log(`데이타 : `, articleData);
-  console.log(`페이지사이즈 확인 : `, pageSize);
+  // console.log(`데이타 : `, articleData);
+  // console.log(`페이지사이즈 확인 : `, pageSize);
 
   return (
     <Wrap>
