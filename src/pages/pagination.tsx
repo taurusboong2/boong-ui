@@ -32,12 +32,15 @@ const Pagination: React.FunctionComponent = () => {
   useEffect(() => {
     getData().then(res => {
       const articleData = res.data;
+      const articleMetaData = res.meta;
+      const totalValue = articleMetaData.pagination.total;
       setArticles(articleData);
-      setArticleMeta(res.meta);
-      setTotalArticles(articleMeta.pagination.total);
+      setArticleMeta(articleMetaData);
+      setTotalArticles(totalValue);
     });
-  }, [page, pageSize, numPage]);
+  }, [page, pageSize, numPage, totalArticles]);
 
+  // console.log(`아티클메타`, articleMeta);
   // console.log(`articles 데이타 : `, articles);
   // console.log(`토탈값 : `, totalArticles);
   // console.log(`페이지사이즈 확인 : `, pageSize);

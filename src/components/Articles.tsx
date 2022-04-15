@@ -1,18 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Articles = ({ total, page, setPage, pageSize, numPage }) => {
-  const offset = (page - 1) * pageSize;
-  console.log(`오프셋 값`, offset);
-  console.log(`numPage 값`, numPage);
-
-  useEffect(() => {
-    numPage;
-    page;
-    total;
-    pageSize;
-  });
+  useEffect(() => {}, [total, page, pageSize, numPage]);
 
   return (
     <>
