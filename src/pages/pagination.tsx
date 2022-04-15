@@ -10,10 +10,12 @@ const Pagination: React.FunctionComponent = () => {
   const [pageSize, setPageSize]: any = useState(10);
   const [page, setPage]: any = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
+  const [numPage, setNumPage] = useState(totalArticles / pageSize);
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = e.currentTarget.value;
     setPageSize(Number(value));
+    setNumPage(totalArticles / Number(value));
   };
 
   const getData = async () => {
@@ -34,12 +36,11 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(res.meta);
       setTotalArticles(articleMeta.pagination.total);
     });
-  }, [page, pageSize]);
+  }, [page, pageSize, numPage]);
 
-  console.log(`articles : `, articles);
-  console.log(`meta값 : `, articleMeta);
-  console.log(`토탈값 : `, totalArticles);
-  console.log(`페이지사이즈 확인 : `, pageSize);
+  // console.log(`articles 데이타 : `, articles);
+  // console.log(`토탈값 : `, totalArticles);
+  // console.log(`페이지사이즈 확인 : `, pageSize);
 
   return (
     <Wrap>
@@ -64,7 +65,7 @@ const Pagination: React.FunctionComponent = () => {
         })}
       </Main>
 
-      <Articles total={totalArticles} page={page} setPage={setPage} />
+      <Articles total={totalArticles} page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} />
     </Wrap>
   );
 };
