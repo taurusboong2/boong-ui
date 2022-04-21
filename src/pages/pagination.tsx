@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
@@ -61,6 +61,10 @@ const Pagination: React.FunctionComponent = () => {
 
   return (
     <Wrap>
+      <Routes>
+        <Route path="/pagination/?page=&pageSize=" element={<Pagination />} />
+      </Routes>
+
       <header>Article List</header>
 
       <button onClick={() => navigate('/')}>HOME</button>

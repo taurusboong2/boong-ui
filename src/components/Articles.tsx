@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Articles = ({ total, page, setPage, pageSize, numPage }) => {
@@ -28,7 +28,9 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link to={{ pathname: `/pagination/${page}` }} onClick={() => setPage(number)}>
+                <Link
+                  to={{ pathname: `page=${page}&pageSize=${pageSize}`, search: `?page=${page}&pageSize=${pageSize}` }}
+                  onClick={() => setPage(number)}>
                   {number}
                 </Link>
               </PageSpan>
@@ -114,6 +116,9 @@ const PageLi = styled.li`
 `;
 
 const PageSpan = styled.span`
+  min-width: 10px;
+  min-height: 10px;
+
   &:hover::after,
   &:focus::after {
     border-radius: 100%;
