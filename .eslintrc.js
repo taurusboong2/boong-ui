@@ -33,7 +33,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error'],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': ['error', 'window'],
     'prefer-const': 'error',
     'no-var': 'error',
     'no-console': 'warn',
