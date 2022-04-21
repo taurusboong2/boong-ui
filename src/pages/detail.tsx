@@ -10,7 +10,7 @@ const Detail = () => {
 
   const { id } = useParams();
 
-  const putData = async () => {
+  const getData = async () => {
     try {
       const response = await axios.get(`http://localhost:1337/api/articles/${id}`);
       return response.data;
@@ -20,13 +20,13 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    putData().then(res => {
+    getData().then(res => {
       const articleData = res.data;
       setDetailData(articleData);
       setTitle(articleData.attributes.title);
       setDescription(articleData.attributes.description);
     });
-  }, []);
+  }, [id]);
 
   console.log(detailData);
   console.log(title);

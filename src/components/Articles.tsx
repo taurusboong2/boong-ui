@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Articles = ({ total, page, setPage, pageSize, numPage }) => {
@@ -7,8 +7,6 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
   for (let i = 1; i <= Math.ceil(total / pageSize); i++) {
     pageList.push(i);
   }
-
-  useEffect(() => {}, [total, page, pageSize, numPage]);
 
   return (
     <>
@@ -23,7 +21,7 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                {number}
+                <Link path={{ pathname: `Pagination/page=${page}&pageSize=${pageSize}`, children: 1 }}>{number}</Link>
               </PageSpan>
             </PageLi>
           ))}
@@ -88,12 +86,19 @@ const PageLi = styled.li`
   padding: 5px;
   border-radius: 5px;
   width: 25px;
+
   &:hover {
     cursor: pointer;
     color: white;
     background-color: #263a6c;
   }
+
   &:focus::after {
+    color: white;
+    background-color: #263a6c;
+  }
+
+  &:active {
     color: white;
     background-color: #263a6c;
   }
