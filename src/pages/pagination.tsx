@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
 
@@ -11,6 +12,8 @@ const Pagination: React.FunctionComponent = () => {
   const [page, setPage]: any = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
+
+  const navigate = useNavigate();
 
   // const indexOfLast = page * pageSize;
   // const indexOfFirst = indexOfLast - pageSize;
@@ -47,17 +50,20 @@ const Pagination: React.FunctionComponent = () => {
       setArticles(articleData);
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
+      setNumPage(totalArticles / pageSize);
     });
   }, [page, pageSize, numPage, totalArticles]);
 
   // console.log(`아티클메타`, articleMeta);
   // console.log(`articles 데이타 : `, articles);
-  // console.log(`토탈값 : `, totalArticles);
   // console.log(`페이지사이즈 확인 : `, pageSize);
+  // console.log(`페이지 개수 확인 : `, numPage);
 
   return (
     <Wrap>
       <header>Article List</header>
+
+      <button onClick={() => navigate('/')}>HOME</button>
 
       <select typeof="number" value={pageSize} onChange={onChange}>
         <option value={5}>5</option>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,6 +8,12 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
   for (let i = 1; i <= Math.ceil(total / pageSize); i++) {
     pageList.push(i);
   }
+
+  const location = useLocation();
+  const params = useParams();
+
+  console.log(location);
+  console.log(params);
 
   return (
     <>
@@ -21,7 +28,9 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link path={{ pathname: `Pagination/page=${page}&pageSize=${pageSize}`, children: 1 }}>{number}</Link>
+                <Link to={{ pathname: `/pagination/${page}` }} onClick={() => setPage(number)}>
+                  {number}
+                </Link>
               </PageSpan>
             </PageLi>
           ))}
