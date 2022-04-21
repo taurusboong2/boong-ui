@@ -26,7 +26,7 @@ const App: React.FC = () => {
           <Route path="/tutorial" element={<Tutorial />} />
           <Route path="/tutorial-styled" element={<TutorialStyled />} />
           <Route path="/pagination" element={<Pagination />}>
-            <Route path=":?page=&pageSize=" element={<Pagination />} />
+            <Route path=":page=&pageSize=" element={<Pagination />} />
           </Route>
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="*" element={<NotFound />} />

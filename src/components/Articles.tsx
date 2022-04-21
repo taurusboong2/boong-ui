@@ -28,9 +28,7 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link
-                  to={{ pathname: `page=${page}&pageSize=${pageSize}`, search: `?page=${page}&pageSize=${pageSize}` }}
-                  onClick={() => setPage(number)}>
+                <Link to={{ search: `/?page=${page}&pageSize=${pageSize}` }} onClick={() => setPage(number)}>
                   {number}
                 </Link>
               </PageSpan>
