@@ -9,6 +9,10 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
   console.log(location);
   console.log(location.search);
 
+  const goPage = number => {
+    setPage(number);
+  };
+
   return (
     <>
       <PageBtn>
@@ -23,8 +27,8 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
                 <NavLink
-                  to={`?page=${number}&pageSize=${pageSize}`}
-                  onClick={() => setPage(number)}
+                  onClick={goPage}
+                  to={`?page=${page}&pageSize=${pageSize}`}
                   className={page === number ? 'current' : ''}>
                   {number}
                 </NavLink>
@@ -112,6 +116,10 @@ const PageSpan = styled.span`
   &:hover::after,
   &:focus::after {
     border-radius: 100%;
+    color: white;
+    background-color: #263a6c;
+  }
+  a:active {
     color: white;
     background-color: #263a6c;
   }
