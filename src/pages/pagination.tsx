@@ -15,6 +15,7 @@ const Pagination: React.FunctionComponent = () => {
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
 
   const pageList: number[] = [];
+
   for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
     pageList.push(i);
   }

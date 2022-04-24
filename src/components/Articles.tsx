@@ -27,10 +27,7 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <NavLink
-                  onClick={goPage}
-                  to={`?page=${page}&pageSize=${pageSize}`}
-                  style={{ color: currentPage ? 'white' : '#fff', backgroundColor: currentPage ? '#263a6c' : '' }}>
+                <NavLink onClick={goPage} to={`?page=${page}&pageSize=${pageSize}`}>
                   {number}
                 </NavLink>
               </PageSpan>
@@ -111,13 +108,27 @@ const PageLi = styled.li`
 `;
 
 const PageSpan = styled.span`
-  min-width: 10px;
-  min-height: 10px;
+  /* min-width: 10px;
+  min-height: 10px; */
 
   &:hover::after,
   &:focus::after {
     border-radius: 100%;
     color: white;
     background-color: #263a6c;
+  }
+
+  a {
+    width: 10px;
+    height: 10px;
+    /* border-radius: 50%; */
+
+    &:active,
+    :focus {
+      padding: 0 3px;
+      border-radius: 5px;
+      color: white;
+      background-color: #263a6c;
+    }
   }
 `;
