@@ -4,10 +4,11 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
-  const location = useLocation();
+  const { search } = useLocation();
 
-  console.log(location);
-  console.log(location.search);
+  console.log(search);
+
+  const currentPage = search === `?page=${page}&pageSize=${pageSize}`;
 
   const goPage = number => {
     setPage(number);
@@ -29,7 +30,7 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
                 <NavLink
                   onClick={goPage}
                   to={`?page=${page}&pageSize=${pageSize}`}
-                  className={page === number ? 'current' : ''}>
+                  style={{ color: currentPage ? 'white' : '#fff', backgroundColor: currentPage ? '#263a6c' : '' }}>
                   {number}
                 </NavLink>
               </PageSpan>
@@ -116,10 +117,6 @@ const PageSpan = styled.span`
   &:hover::after,
   &:focus::after {
     border-radius: 100%;
-    color: white;
-    background-color: #263a6c;
-  }
-  a:active {
     color: white;
     background-color: #263a6c;
   }
