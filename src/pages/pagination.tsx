@@ -4,6 +4,7 @@ import { Link, Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
+import '../pagination.scss';
 
 const Pagination: React.FunctionComponent = () => {
   const [articles, setArticles]: any = useState([]);

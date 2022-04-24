@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router';
-import { Link, Routes, Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import '../pagination.scss';
 
 const Articles = ({ total, page, setPage, pageSize, numPage }) => {
   const pageList: number[] = [];
@@ -28,9 +29,9 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link to={{ search: `/?page=${page}&pageSize=${pageSize}` }} onClick={() => setPage(number)}>
+                <NavLink to={`?page=${number}&pageSize=${pageSize}`} onClick={() => setPage(number)}>
                   {number}
-                </Link>
+                </NavLink>
               </PageSpan>
             </PageLi>
           ))}
