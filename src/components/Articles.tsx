@@ -2,19 +2,12 @@ import React from 'react';
 import { useParams, useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import '../pagination.scss';
 
-const Articles = ({ total, page, setPage, pageSize, numPage }) => {
-  const pageList: number[] = [];
-  for (let i = 1; i <= Math.ceil(total / pageSize); i++) {
-    pageList.push(i);
-  }
-
+const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
   const location = useLocation();
-  const params = useParams();
 
   console.log(location);
-  console.log(params);
+  console.log(location.search);
 
   return (
     <>
@@ -29,7 +22,10 @@ const Articles = ({ total, page, setPage, pageSize, numPage }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <NavLink to={`?page=${number}&pageSize=${pageSize}`} onClick={() => setPage(number)}>
+                <NavLink
+                  to={`?page=${number}&pageSize=${pageSize}`}
+                  onClick={() => setPage(number)}
+                  className={page === number ? 'current' : ''}>
                   {number}
                 </NavLink>
               </PageSpan>
@@ -104,11 +100,6 @@ const PageLi = styled.li`
   }
 
   &:focus::after {
-    color: white;
-    background-color: #263a6c;
-  }
-
-  &:active {
     color: white;
     background-color: #263a6c;
   }

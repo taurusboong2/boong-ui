@@ -14,16 +14,12 @@ const Pagination: React.FunctionComponent = () => {
   const [totalArticles, setTotalArticles] = useState(0);
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
 
+  const pageList: number[] = [];
+  for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
+    pageList.push(i);
+  }
+
   const navigate = useNavigate();
-
-  // const indexOfLast = page * pageSize;
-  // const indexOfFirst = indexOfLast - pageSize;
-
-  // function currentPages(tmp) {
-  //   let currentPage = 0;
-  //   currentPage = tmp.slice(indexOfFirst, indexOfLast);
-  //   return currentPage;
-  // }
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = e.currentTarget.value;
@@ -89,7 +85,7 @@ const Pagination: React.FunctionComponent = () => {
         })}
       </Main>
 
-      <Articles total={totalArticles} page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} />
+      <Articles page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} pageList={pageList} />
     </Wrap>
   );
 };
