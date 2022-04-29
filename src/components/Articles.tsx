@@ -14,14 +14,6 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
     endIndex: 10,
   });
 
-  // setCurrentPage({
-  //   ...currentPage,
-  //   startIndex: currentPage.startIndex - 10,
-  //   endIndex: currentPage.endIndex - 10,
-  // });
-
-  console.log(page);
-
   const goPage = number => {
     setPage(number);
   };
@@ -36,7 +28,7 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
           ←
         </Button>
         <PageUl className="pagination">
-          {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
+          {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
                 <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
