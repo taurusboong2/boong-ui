@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, useSearchParams } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
@@ -13,6 +13,10 @@ const Pagination: React.FunctionComponent = () => {
   const [page, setPage]: any = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageValue = searchParams.get('page');
+  const pageSizeValue = searchParams.get('pageSize');
 
   const state: any = useLocation().state;
   console.log(state);
@@ -53,7 +57,27 @@ const Pagination: React.FunctionComponent = () => {
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
     });
-  }, [page, pageSize, numPage, totalArticles]);
+  }, [page, pageSize]);
+
+  const getQueryData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
+      );
+      return response.data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (pageValue !== null) {
+      getQueryData().then(() => {
+        setPage(pageValue);
+        setPageSize(pageSizeValue);
+      });
+    }
+  }, [pageValue, pageSizeValue]);
 
   // console.log(`아티클메타`, articleMeta);
   // console.log(`articles 데이타 : `, articles);
