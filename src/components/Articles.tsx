@@ -1,14 +1,18 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
   const { search } = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageValue = searchParams.get('page');
+  const pageSizeValue = searchParams.get('pageSize');
 
   console.log(search);
-
-  const currentPage = search === `?page=${page}&pageSize=${pageSize}`;
+  console.log(pageValue);
+  console.log(pageSizeValue);
 
   const goPage = number => {
     setPage(number);
@@ -27,9 +31,9 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <NavLink onClick={goPage} to={`?page=${page}&pageSize=${pageSize}`}>
+                <Link onClick={goPage} to={`?page=${page}&pageSize=${pageSize}`}>
                   {number}
-                </NavLink>
+                </Link>
               </PageSpan>
             </PageLi>
           ))}
