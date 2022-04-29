@@ -14,12 +14,10 @@ const Pagination: React.FunctionComponent = () => {
   const [totalArticles, setTotalArticles] = useState(0);
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
 
+  // query value
   const [searchParams, setSearchParams] = useSearchParams();
   const pageValue = searchParams.get('page');
   const pageSizeValue = searchParams.get('pageSize');
-
-  const state: any = useLocation().state;
-  console.log(state);
 
   const pageList: number[] = [];
 
@@ -78,11 +76,6 @@ const Pagination: React.FunctionComponent = () => {
       });
     }
   }, [pageValue, pageSizeValue]);
-
-  // console.log(`아티클메타`, articleMeta);
-  // console.log(`articles 데이타 : `, articles);
-  // console.log(`페이지사이즈 확인 : `, pageSize);
-  // console.log(`페이지 개수 확인 : `, numPage);
 
   return (
     <Wrap>

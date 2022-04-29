@@ -1,18 +1,8 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
-  const state: any = useLocation().state;
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const pageValue = searchParams.get('page');
-  const pageSizeValue = searchParams.get('pageSize');
-
-  // console.log(state);
-
   const goPage = number => {
     setPage(number);
   };
@@ -30,10 +20,7 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link
-                  onClick={goPage}
-                  to={`?page=${number}&pageSize=${pageSize}`}
-                  state={{ page: number, pageSize: pageSize }}>
+                <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
                   {number}
                 </Link>
               </PageSpan>
