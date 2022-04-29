@@ -19,12 +19,6 @@ const Pagination: React.FunctionComponent = () => {
   const pageValue = searchParams.get('page');
   const pageSizeValue = searchParams.get('pageSize');
 
-  const pageList: number[] = [];
-
-  for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
-    pageList.push(i);
-  }
-
   const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -57,6 +51,7 @@ const Pagination: React.FunctionComponent = () => {
     });
   }, [page, pageSize]);
 
+  // using query to re-rendering
   const getQueryData = async () => {
     try {
       const response = await axios.get(
@@ -106,7 +101,7 @@ const Pagination: React.FunctionComponent = () => {
         })}
       </Main>
 
-      <Articles page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} pageList={pageList} />
+      <Articles page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} totalArticles={totalArticles} />
     </Wrap>
   );
 };

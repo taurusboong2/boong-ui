@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
+const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
+  const pageList: number[] = [];
+
+  for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
+    pageList.push(i);
+  }
+
+  const [currentPage, setCurrentPage] = useState({
+    startIndex: 0,
+    endIndex: 10,
+  });
+
+  // setCurrentPage({
+  //   ...currentPage,
+  //   startIndex: currentPage.startIndex - 10,
+  //   endIndex: currentPage.endIndex - 10,
+  // });
+
+  console.log(page);
+
   const goPage = number => {
     setPage(number);
   };
@@ -17,9 +36,9 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
           ←
         </Button>
         <PageUl className="pagination">
-          {pageList.map(number => (
+          {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
             <PageLi key={number} className="page-item">
-              <PageSpan onClick={() => setPage(number)} className="page-link">
+              <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
                 <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
                   {number}
                 </Link>
@@ -117,7 +136,8 @@ const PageSpan = styled.span`
     /* border-radius: 50%; */
 
     &:active,
-    :focus {
+    &.active,
+    &:focus {
       padding: 0 3px;
       border-radius: 5px;
       color: white;
