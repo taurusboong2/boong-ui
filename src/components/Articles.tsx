@@ -10,12 +10,12 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
   const pageValue = searchParams.get('page');
   const pageSizeValue = searchParams.get('pageSize');
 
-  console.log(search);
   console.log(pageValue);
   console.log(pageSizeValue);
 
   const goPage = number => {
     setPage(number);
+    setSearchParams({ page, pageSize });
   };
 
   return (
@@ -31,7 +31,7 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
           {pageList.map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className="page-link">
-                <Link onClick={goPage} to={`?page=${page}&pageSize=${pageSize}`}>
+                <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
                   {number}
                 </Link>
               </PageSpan>
