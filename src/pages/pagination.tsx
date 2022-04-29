@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import styled from 'styled-components';
 import Articles from '../components/Articles';
 import '../pagination.scss';
@@ -13,6 +13,9 @@ const Pagination: React.FunctionComponent = () => {
   const [page, setPage]: any = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
   const [numPage, setNumPage] = useState(totalArticles / pageSize);
+
+  const state: any = useLocation().state;
+  console.log(state);
 
   const pageList: number[] = [];
 

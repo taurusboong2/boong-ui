@@ -10,12 +10,10 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
   const pageValue = searchParams.get('page');
   const pageSizeValue = searchParams.get('pageSize');
 
-  console.log(state);
+  // console.log(state);
 
   const goPage = number => {
-    console.log(`페이지스테이트`, state.pageSize);
     setPage(number);
-    setSearchParams({ page, pageSize });
   };
 
   return (
@@ -34,7 +32,7 @@ const Articles = ({ page, setPage, pageSize, numPage, pageList }) => {
                 <Link
                   onClick={goPage}
                   to={`?page=${number}&pageSize=${pageSize}`}
-                  state={{ page: { number }, pageSize: { pageSize } }}>
+                  state={{ page: number, pageSize: pageSize }}>
                   {number}
                 </Link>
               </PageSpan>
