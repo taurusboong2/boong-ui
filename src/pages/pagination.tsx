@@ -1,11 +1,12 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route, useSearchParams } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router';
-import styled from 'styled-components';
-import qs from 'query-string';
+import { Link, Routes, Route, useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
+
+//tools
+import axios from 'axios';
+import styled from 'styled-components';
+import qs from 'query-string';
 
 const Pagination: React.FunctionComponent = () => {
   const [articles, setArticles]: any = useState([]);
@@ -21,6 +22,7 @@ const Pagination: React.FunctionComponent = () => {
   const pageSizeValue = searchParams.get('pageSize');
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = e.currentTarget.value;
@@ -32,7 +34,7 @@ const Pagination: React.FunctionComponent = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+        `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
       );
       return response.data;
     } catch (e) {
@@ -41,6 +43,20 @@ const Pagination: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
+    console.log(pageValue);
+    console.log(pageSizeValue);
+    console.log(location);
+
+    navigate(
+      {
+        pathname: location.pathname,
+        search: `?page=${pageValue}&pageSize=${pageSizeValue}`,
+      },
+      {
+        replace: true,
+      }
+    );
+
     getData().then(res => {
       const articleData = res.data;
       const articleMetaData = res.meta;
@@ -53,7 +69,7 @@ const Pagination: React.FunctionComponent = () => {
   }, [page, pageSize]);
 
   // using query to re-rendering
-  const getQueryData = async () => {
+  /*   const getQueryData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
@@ -72,7 +88,7 @@ const Pagination: React.FunctionComponent = () => {
       });
     }
   }, [pageValue, pageSizeValue]);
-
+ */
   return (
     <Wrap>
       <Routes>

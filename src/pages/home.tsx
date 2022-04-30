@@ -1,27 +1,8 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../home.module.scss';
-import { useEffect } from 'react';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  console.log(location);
-
-  useEffect(() => {
-    navigate(
-      {
-        pathname: location.pathname,
-        search: '?sort=date&order=newest',
-      },
-      {
-        replace: true,
-      }
-    );
-  }, []);
-
   return (
     <div className="home">
       <h2 className="title">Home page</h2>
