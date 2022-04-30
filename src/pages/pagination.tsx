@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route, useSearchParams, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Routes, Route, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
 
@@ -34,7 +34,7 @@ const Pagination: React.FunctionComponent = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
+        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
       );
       return response.data;
     } catch (e) {
@@ -42,34 +42,7 @@ const Pagination: React.FunctionComponent = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(pageValue);
-    console.log(pageSizeValue);
-    console.log(location);
-
-    navigate(
-      {
-        pathname: location.pathname,
-        search: `?page=${pageValue}&pageSize=${pageSizeValue}`,
-      },
-      {
-        replace: true,
-      }
-    );
-
-    getData().then(res => {
-      const articleData = res.data;
-      const articleMetaData = res.meta;
-      const totalValue = articleMetaData.pagination.total;
-      setArticles(articleData);
-      setArticleMeta(articleMetaData);
-      setTotalArticles(totalValue);
-      setNumPage(totalArticles / pageSize);
-    });
-  }, [page, pageSize]);
-
-  // using query to re-rendering
-  /*   const getQueryData = async () => {
+  const getQueryData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
@@ -81,6 +54,47 @@ const Pagination: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
+    console.log(pageValue);
+    console.log(pageSizeValue);
+
+    navigate(
+      {
+        pathname: location.pathname,
+        search: `?${createSearchParams({
+          page: page,
+          pageSize: pageSize,
+        })}`,
+      },
+      {
+        replace: true,
+      }
+    );
+
+    if (pageValue !== null && pageSizeValue !== null) {
+      getQueryData().then(res => {
+        const articleData = res.data;
+        const articleMetaData = res.meta;
+        const totalValue = articleMetaData.pagination.total;
+        setArticles(articleData);
+        setArticleMeta(articleMetaData);
+        setTotalArticles(totalValue);
+        setNumPage(totalArticles / pageSize);
+      });
+    }
+    getData().then(res => {
+      const articleData = res.data;
+      const articleMetaData = res.meta;
+      const totalValue = articleMetaData.pagination.total;
+      setArticles(articleData);
+      setArticleMeta(articleMetaData);
+      setTotalArticles(totalValue);
+      setNumPage(totalArticles / pageSize);
+    });
+  }, [page, pageSize, pageValue, pageSizeValue]);
+
+  // using query to re-rendering
+
+  /*   useEffect(() => {
     if (pageValue !== null) {
       getQueryData().then(() => {
         setPage(pageValue);
