@@ -65,7 +65,7 @@ const Pagination: React.FunctionComponent = () => {
         })}`,
       },
       {
-        replace: true,
+        replace: false,
         state: {
           firstPage: 1,
           firstPageSize: 10,
@@ -75,6 +75,10 @@ const Pagination: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
+    // if (pageValue !== null && pageSizeValue !== null) {
+    //   setPage(pageValue);
+    //   setPageSize(pageSizeValue);
+    // }
     getData().then(res => {
       const articleData = res.data;
       const articleMetaData = res.meta;
@@ -83,19 +87,17 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
-      if (pageValue !== null || pageSizeValue !== null) {
-        setPage(pageValue);
-        setPageSize(pageSizeValue);
-      }
+      navigate({
+        search: `?${createSearchParams({
+          page: page,
+          pageSize: pageSize,
+        })}`,
+      });
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
 
   return (
     <Wrap>
-      <Routes>
-        <Route path="/pagination/?page=&pageSize=" element={<Pagination />} />
-      </Routes>
-
       <header>Article List</header>
 
       <button onClick={() => navigate('/')}>HOME</button>
