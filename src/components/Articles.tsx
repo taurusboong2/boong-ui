@@ -109,6 +109,12 @@ const PageLi = styled.li`
     color: white;
     background-color: #263a6c;
   }
+  .active {
+    padding: 0 3px;
+    border-radius: 5px;
+    color: white;
+    background-color: #263a6c;
+  }
 `;
 
 const PageSpan = styled.span`
@@ -128,7 +134,6 @@ const PageSpan = styled.span`
     /* border-radius: 50%; */
 
     &:active,
-    &.active,
     &:focus {
       padding: 0 3px;
       border-radius: 5px;
