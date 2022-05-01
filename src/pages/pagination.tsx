@@ -36,18 +36,9 @@ const Pagination: React.FunctionComponent = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
-      );
-      return response.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getQueryData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${pageValue}&pagination[pageSize]=${pageSizeValue}`
+        `http://localhost:1337/api/articles/?pagination[page]=${Number(pageValue)}&pagination[pageSize]=${Number(
+          pageSizeValue
+        )}`
       );
       return response.data;
     } catch (e) {
@@ -65,7 +56,7 @@ const Pagination: React.FunctionComponent = () => {
         })}`,
       },
       {
-        replace: false,
+        replace: true,
         state: {
           firstPage: 1,
           firstPageSize: 10,
@@ -75,26 +66,36 @@ const Pagination: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    // if (pageValue !== null && pageSizeValue !== null) {
-    //   setPage(pageValue);
-    //   setPageSize(pageSizeValue);
-    // }
+    console.log(pageValue);
+    console.log(typeof pageValue === 'string');
+    console.log(typeof Number(pageValue) === 'number');
+
     getData().then(res => {
       const articleData = res.data;
+      setArticles(articleData);
       const articleMetaData = res.meta;
       const totalValue = articleMetaData.pagination.total;
-      setArticles(articleData);
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
-      navigate({
-        search: `?${createSearchParams({
-          page: page,
-          pageSize: pageSize,
-        })}`,
-      });
+      navigate(
+        {
+          search: `?${createSearchParams({
+            page: page,
+            pageSize: pageSize,
+          })}`,
+        },
+        {
+          replace: false,
+        }
+      );
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
+
+  // useEffect(() => {
+  //   setPage(pageValue);
+  //   setPageSize(pageSizeValue);
+  // }, [pageValue, pageSizeValue]);
 
   return (
     <Wrap>
