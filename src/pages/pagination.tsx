@@ -9,6 +9,11 @@ import styled from 'styled-components';
 import qs from 'query-string';
 
 const Pagination: React.FunctionComponent = () => {
+  // router dom
+  const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location.state as { firstPage; firstPageSize };
+
   const [articles, setArticles]: any = useState([]);
   const [articleMeta, setArticleMeta]: any = useState([]);
   const [pageSize, setPageSize]: any = useState(10);
@@ -20,9 +25,6 @@ const Pagination: React.FunctionComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageValue = searchParams.get('page');
   const pageSizeValue = searchParams.get('pageSize');
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const value = e.currentTarget.value;
@@ -54,6 +56,7 @@ const Pagination: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
+    console.log(location.search);
     console.log(pageValue);
     console.log(pageSizeValue);
 
@@ -63,24 +66,17 @@ const Pagination: React.FunctionComponent = () => {
         search: `?${createSearchParams({
           page: page,
           pageSize: pageSize,
-        })}`,
+        })}`.toString(),
       },
       {
         replace: true,
+        state: {
+          firstPage: 1,
+          firstPageSize: 10,
+        },
       }
     );
 
-    if (pageValue !== null && pageSizeValue !== null) {
-      getQueryData().then(res => {
-        const articleData = res.data;
-        const articleMetaData = res.meta;
-        const totalValue = articleMetaData.pagination.total;
-        setArticles(articleData);
-        setArticleMeta(articleMetaData);
-        setTotalArticles(totalValue);
-        setNumPage(totalArticles / pageSize);
-      });
-    }
     getData().then(res => {
       const articleData = res.data;
       const articleMetaData = res.meta;
@@ -89,6 +85,12 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
+      if (pageValue !== null) {
+        getQueryData().then(() => {
+          setPage(pageValue);
+          setPageSize(pageSizeValue);
+        });
+      }
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
 
