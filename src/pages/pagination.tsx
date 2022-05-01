@@ -56,17 +56,13 @@ const Pagination: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
-    console.log(location.search);
-    console.log(pageValue);
-    console.log(pageSizeValue);
-
     navigate(
       {
         pathname: location.pathname,
         search: `?${createSearchParams({
           page: page,
           pageSize: pageSize,
-        })}`.toString(),
+        })}`,
       },
       {
         replace: true,
@@ -76,7 +72,9 @@ const Pagination: React.FunctionComponent = () => {
         },
       }
     );
+  }, []);
 
+  useEffect(() => {
     getData().then(res => {
       const articleData = res.data;
       const articleMetaData = res.meta;
@@ -85,26 +83,13 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
-      if (pageValue !== null) {
-        getQueryData().then(() => {
-          setPage(pageValue);
-          setPageSize(pageSizeValue);
-        });
+      if (pageValue !== null || pageSizeValue !== null) {
+        setPage(pageValue);
+        setPageSize(pageSizeValue);
       }
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
 
-  // using query to re-rendering
-
-  /*   useEffect(() => {
-    if (pageValue !== null) {
-      getQueryData().then(() => {
-        setPage(pageValue);
-        setPageSize(pageSizeValue);
-      });
-    }
-  }, [pageValue, pageSizeValue]);
- */
   return (
     <Wrap>
       <Routes>
