@@ -78,17 +78,20 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
-      navigate(
-        {
-          search: `?${createSearchParams({
-            page: page,
-            pageSize: pageSize,
-          })}`,
-        },
-        {
-          replace: false,
-        }
-      );
+      // navigate(
+      //   {
+      //     search: `?${createSearchParams({
+      //       page: page,
+      //       pageSize: pageSize,
+      //     })}`,
+      //   },
+      //   {
+      //     replace: true,
+      //   }
+      // );
+      searchParams.set('page', `${page}`);
+      searchParams.set('pageSize', `${pageSize}`);
+      console.log(pageValue);
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
 
