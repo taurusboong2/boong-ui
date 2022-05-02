@@ -12,7 +12,8 @@ const Pagination: React.FunctionComponent = () => {
   // router dom
   const navigate = useNavigate();
   const location = useLocation();
-  const locationState = location.state as { firstPage; firstPageSize };
+  const search = location.search;
+  const parsed = qs.parse(search);
 
   const [articles, setArticles]: any = useState([]);
   const [articleMeta, setArticleMeta]: any = useState([]);
@@ -69,6 +70,8 @@ const Pagination: React.FunctionComponent = () => {
     console.log(pageValue);
     console.log(typeof pageValue === 'string');
     console.log(typeof Number(pageValue) === 'number');
+    console.log(parsed);
+    console.log(qs.stringify(parsed));
 
     getData().then(res => {
       const articleData = res.data;
@@ -78,27 +81,25 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
-      // navigate(
-      //   {
-      //     search: `?${createSearchParams({
-      //       page: page,
-      //       pageSize: pageSize,
-      //     })}`,
-      //   },
-      //   {
-      //     replace: true,
-      //   }
-      // );
-      searchParams.set('page', `${page}`);
-      searchParams.set('pageSize', `${pageSize}`);
-      console.log(pageValue);
+      // parsed.page = pageValue;
+      // parsed.pageSize = pageSizeValue;
+      navigate({
+        search:
+          '?' +
+          {
+            page: pageValue,
+            pageSize: pageSizeValue,
+          },
+      });
     });
   }, [page, pageSize, pageValue, pageSizeValue]);
 
   // useEffect(() => {
-  //   setPage(pageValue);
-  //   setPageSize(pageSizeValue);
-  // }, [pageValue, pageSizeValue]);
+  //   parsed.page = pageValue;
+  //   parsed.pageSize = pageSizeValue;
+  //   setPage(parsed.page);
+  //   setPageSize(parsed.pageSize);
+  // }, [page, pageSize, pageValue, pageSizeValue]);
 
   return (
     <Wrap>
