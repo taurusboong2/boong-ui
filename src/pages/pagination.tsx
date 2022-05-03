@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Routes, Route, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
 
 //tools
 import axios from 'axios';
 import styled from 'styled-components';
-import qs from 'query-string';
 
 const Pagination: React.FunctionComponent = () => {
   // router dom
@@ -35,9 +34,7 @@ const Pagination: React.FunctionComponent = () => {
   const getData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${Number(pageValue)}&pagination[pageSize]=${Number(
-          pageSizeValue
-        )}`
+        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
       );
       return response.data;
     } catch (e) {
@@ -65,15 +62,8 @@ const Pagination: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log(pageValue);
-    console.log(typeof pageValue === 'string');
-    console.log(typeof Number(pageValue) === 'number');
-    console.log(searchParams);
-    console.log(setSearchParams);
-
-    if (!pageValue || !pageSizeValue) {
-      return;
-    }
+    console.log(`pageValue : `, pageValue);
+    console.log(`pageSizeValue : `, pageSizeValue);
 
     getData().then(res => {
       const articleData = res.data;
@@ -83,6 +73,7 @@ const Pagination: React.FunctionComponent = () => {
       setArticleMeta(articleMetaData);
       setTotalArticles(totalValue);
       setNumPage(totalArticles / pageSize);
+      console.log(`get data func11111111111`);
       navigate(
         {
           search: `?page=${page}&pageSize=${pageSize}`,
@@ -91,8 +82,9 @@ const Pagination: React.FunctionComponent = () => {
           replace: true,
         }
       );
+      console.log(`get data func222222222`);
     });
-  }, [page, pageSize, pageValue, pageSizeValue]);
+  }, [page, pageSize]);
 
   useEffect(() => {
     if (!pageValue || !pageSizeValue) {
@@ -127,7 +119,14 @@ const Pagination: React.FunctionComponent = () => {
         })}
       </Main>
 
-      <Articles page={page} setPage={setPage} pageSize={pageSize} numPage={numPage} totalArticles={totalArticles} />
+      <Articles
+        page={page}
+        setPage={setPage}
+        pageSize={pageSize}
+        numPage={numPage}
+        totalArticles={totalArticles}
+        pageValue={pageValue}
+      />
     </Wrap>
   );
 };

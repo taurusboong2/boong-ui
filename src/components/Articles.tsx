@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
+const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }) => {
   const pageList: number[] = [];
 
   for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
@@ -24,7 +24,7 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
         <Button onClick={() => setPage(1)} disabled={page === 1}>
           ←←
         </Button>
-        <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+        <Button onClick={() => setPage(Number(pageValue) - 1)} disabled={page === 1}>
           ←
         </Button>
         <PageUl className="pagination">
@@ -38,7 +38,7 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles }) => {
             </PageLi>
           ))}
         </PageUl>
-        <Button onClick={() => setPage(page + 1)} disabled={page === numPage}>
+        <Button onClick={() => setPage(Number(pageValue) + 1)} disabled={page === numPage}>
           →
         </Button>
         <Button onClick={() => setPage(numPage)} disabled={page === numPage}>
