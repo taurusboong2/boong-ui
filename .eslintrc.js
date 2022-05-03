@@ -33,7 +33,6 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error'],
-    'linebreak-style': ['error', 'window'],
     'prefer-const': 'error',
     'no-var': 'error',
     'no-console': 'warn',
@@ -50,6 +49,6 @@ module.exports = {
       },
     ],
     'react/display-name': 'off',
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/exhaustive-deps': ['warn'],
   },
 };
