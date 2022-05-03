@@ -50,8 +50,8 @@ const Pagination: React.FunctionComponent = () => {
       {
         pathname: location.pathname,
         search: `?${createSearchParams({
-          page: page,
-          pageSize: pageSize,
+          page: '1',
+          pageSize: '10',
         })}`,
       },
       {
@@ -68,6 +68,12 @@ const Pagination: React.FunctionComponent = () => {
     console.log(pageValue);
     console.log(typeof pageValue === 'string');
     console.log(typeof Number(pageValue) === 'number');
+    console.log(searchParams);
+    console.log(setSearchParams);
+
+    if (!pageValue || !pageSizeValue) {
+      return;
+    }
 
     getData().then(res => {
       const articleData = res.data;
@@ -89,11 +95,12 @@ const Pagination: React.FunctionComponent = () => {
   }, [page, pageSize, pageValue, pageSizeValue]);
 
   useEffect(() => {
-    if (Number(pageValue) !== 1 || Number(pageSizeValue) !== 10) {
-      setPage(Number(pageValue));
-      setPageSize(Number(pageSizeValue));
+    if (!pageValue || !pageSizeValue) {
+      return;
     }
-  }, [navigate]);
+    setPage(Number(pageValue));
+    setPageSize(Number(pageSizeValue));
+  }, []);
 
   return (
     <Wrap>
