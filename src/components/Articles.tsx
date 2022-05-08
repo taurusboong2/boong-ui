@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+interface currentPageType {
+  startIndex: number;
+  endIndex: number;
+}
+
 const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }) => {
   const pageList: number[] = [];
 
@@ -9,26 +14,98 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }
     pageList.push(i);
   }
 
-  const [currentPage, setCurrentPage] = useState({
+  const [currentPage, setCurrentPage] = useState<currentPageType>({
     startIndex: 0,
     endIndex: 10,
   });
 
+  const [pageLimit, setPageLimit] = useState(10);
+
   const goPage = number => {
     setPage(number);
+
+    if (number + 1 > currentPage.endIndex) {
+      setCurrentPage({
+        endIndex: currentPage.endIndex + pageLimit,
+        startIndex: currentPage.startIndex + pageLimit,
+      });
+    } else if ((number - 1) % pageLimit == 0) {
+      setCurrentPage({
+        endIndex: currentPage.endIndex - pageLimit,
+        startIndex: currentPage.startIndex - pageLimit,
+      });
+    }
   };
+
+  const nextBtnClick = () => {
+    setPage(Number(pageValue) + 1);
+
+    if (page + 1 > currentPage.endIndex) {
+      setCurrentPage({
+        endIndex: currentPage.endIndex + pageLimit,
+        startIndex: currentPage.startIndex + pageLimit,
+      });
+    }
+  };
+
+  const prevBtnClick = () => {
+    setPage(Number(pageValue) - 1);
+
+    if ((page - 1) % pageLimit == 0) {
+      setCurrentPage({
+        endIndex: currentPage.endIndex - pageLimit,
+        startIndex: currentPage.startIndex - pageLimit,
+      });
+    }
+  };
+
+  const firstBtnClick = () => {
+    setPage(1);
+
+    setCurrentPage({
+      ...currentPage,
+      endIndex: 10,
+      startIndex: 0,
+    });
+  };
+
+  const lastBtnClick = () => {
+    setPage(numPage);
+
+    setCurrentPage({
+      ...currentPage,
+      endIndex: numPage * pageSize - pageLimit,
+      startIndex: numPage * pageSize,
+    });
+  };
+
+  const pageNumberList = pageList.map(number => {
+    if (number < currentPage.endIndex + 1 && number > currentPage.startIndex) {
+      return (
+        <PageLi key={number} className="page-item">
+          <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
+            <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
+              {number}
+            </Link>
+          </PageSpan>
+        </PageLi>
+      );
+    } else {
+      return;
+    }
+  });
 
   return (
     <>
       <PageBtn>
-        <Button onClick={() => setPage(1)} disabled={page === 1}>
+        <Button onClick={firstBtnClick} disabled={page === 1}>
           ←←
         </Button>
-        <Button onClick={() => setPage(Number(pageValue) - 1)} disabled={page === 1}>
+        <Button onClick={prevBtnClick} disabled={page === 1}>
           ←
         </Button>
         <PageUl className="pagination">
-          {pageList.map(number => (
+          {/* {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
                 <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
@@ -36,12 +113,13 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }
                 </Link>
               </PageSpan>
             </PageLi>
-          ))}
+          ))} */}
+          {pageNumberList}
         </PageUl>
-        <Button onClick={() => setPage(Number(pageValue) + 1)} disabled={page === numPage}>
+        <Button onClick={nextBtnClick} disabled={page === numPage}>
           →
         </Button>
-        <Button onClick={() => setPage(numPage)} disabled={page === numPage}>
+        <Button onClick={lastBtnClick} disabled={page === numPage}>
           →→
         </Button>
       </PageBtn>
