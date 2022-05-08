@@ -74,8 +74,8 @@ const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }
 
     setCurrentPage({
       ...currentPage,
-      endIndex: numPage * pageSize - pageLimit,
-      startIndex: numPage * pageSize,
+      endIndex: pageList.length,
+      startIndex: pageList.length - pageLimit,
     });
   };
 
