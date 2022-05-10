@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
@@ -7,13 +7,37 @@ import '../pagination.scss';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const Pagination: React.FunctionComponent = () => {
+type Article = {
+  id: number;
+  title: string;
+  description: string;
+};
+
+type PaginationMeta = {
+  pagination: {
+    page: number;
+    pageCount: number;
+    pageSize: number;
+    total: number;
+  };
+};
+
+const getData = async (page: number | string, pageSize: number | string) => {
+  const response = await axios.get<{
+    data: Article[];
+    meta: PaginationMeta;
+  }>(`http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`);
+
+  return response.data;
+};
+
+const Pagination: FC = () => {
   // router dom
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [articles, setArticles]: any = useState([]);
-  const [articleMeta, setArticleMeta]: any = useState([]);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [articleMeta, setArticleMeta] = useState<PaginationMeta>();
   const [pageSize, setPageSize]: any = useState(10);
   const [page, setPage]: any = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
@@ -29,17 +53,6 @@ const Pagination: React.FunctionComponent = () => {
     setPageSize(Number(value));
     setPage(1);
     setNumPage(totalArticles / Number(value));
-  };
-
-  const getData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
-      );
-      return response.data;
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   useEffect(() => {
@@ -62,28 +75,33 @@ const Pagination: React.FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`pageValue : `, pageValue);
-    console.log(`pageSizeValue : `, pageSizeValue);
+    (async () => {
+      if (!pageValue || !pageSizeValue) {
+        return;
+      }
 
-    getData().then(res => {
-      const articleData = res.data;
-      setArticles(articleData);
-      const articleMetaData = res.meta;
-      const totalValue = articleMetaData.pagination.total;
-      setArticleMeta(articleMetaData);
-      setTotalArticles(totalValue);
-      setNumPage(totalArticles / pageSize);
-      console.log(`get data func11111111111`);
-      navigate(
-        {
-          search: `?page=${page}&pageSize=${pageSize}`,
-        },
-        {
-          replace: true,
-        }
-      );
-      console.log(`get data func222222222`);
-    });
+      try {
+        const res = await getData(pageValue, pageSizeValue);
+
+        const articleData = res.data;
+        setArticles(articleData);
+        const articleMetaData = res.meta;
+        const totalValue = articleMetaData.pagination.total;
+        setArticleMeta(articleMetaData);
+        setTotalArticles(totalValue);
+        setNumPage(totalArticles / pageSize);
+        navigate(
+          {
+            search: `?page=${page}&pageSize=${pageSize}`,
+          },
+          {
+            replace: true,
+          }
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    })();
   }, [page, pageSize]);
 
   useEffect(() => {
