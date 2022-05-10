@@ -82,6 +82,8 @@ const Pagination: FC = () => {
     })();
   }, [page, pageSize]);
 
+  // 로딩처리 해보기
+
   return (
     <Wrap>
       <header>Article List</header>

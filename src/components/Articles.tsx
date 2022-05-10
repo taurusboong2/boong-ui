@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,10 +7,13 @@ interface currentPageType {
   endIndex: number;
 }
 
-const Articles = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }) => {
+type Props = any; // 형이 직접 고치지
+
+const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }) => {
   const pageList: number[] = [];
 
   for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
+    // useMemo 사용해서 고치기
     pageList.push(i);
   }
 
