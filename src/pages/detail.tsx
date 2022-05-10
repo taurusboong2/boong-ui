@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
-import { fetchArticleDetail } from '../networks/article';
-import { Article } from '../types/article';
+import { useArticleDetail } from '../hooks/article.hook';
 
 const Detail = () => {
-  const [detailData, setDetailData] = useState<Article>();
-
   const { id } = useParams();
+  const { article } = useArticleDetail(id);
 
-  useEffect(() => {
-    if (!id) return;
-    fetchArticleDetail(id).then(res => {
-      const articleData = res.data;
-      setDetailData(articleData);
-    });
-  }, [id]);
-
-  if (!detailData) {
+  if (!article) {
     return <div>로딩중...</div>;
   }
 
@@ -26,10 +16,10 @@ const Detail = () => {
       <Header>Detail</Header>
       <MainWrap>
         <h2>
-          {detailData.title}
-          <p>{detailData.id}번 게시글</p>
+          {article.title}
+          <p>{article.id}번 게시글</p>
         </h2>
-        <p>{detailData.description}</p>
+        <p>{article.description}</p>
       </MainWrap>
     </>
   );
