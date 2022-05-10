@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useParams } from 'react-router';
 import { ArticleDetailRes } from '../types/article';
+import { api } from '../common/api';
 
 const Detail = () => {
   const [detailData, setDetailData] = useState([]);
@@ -13,7 +13,7 @@ const Detail = () => {
 
   const getData = async () => {
     try {
-      const response = await axios.get<ArticleDetailRes>(`http://localhost:1337/api/articles/${id}`);
+      const response = await api.get<ArticleDetailRes>(`api/articles/${id}`);
       return response.data;
     } catch (e) {
       console.log(e);

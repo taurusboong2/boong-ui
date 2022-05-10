@@ -2,15 +2,15 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
-import { ArticleListRes } from '../types/article';
+import { ArticleListRes, Article, PaginationMeta } from '../types/article';
+import { api } from '../common/api';
 
 //tools
-import axios from 'axios';
 import styled from 'styled-components';
 
 const getData = async (page: number | string, pageSize: number | string) => {
-  const response = await axios.get<ArticleListRes>(
-    `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+  const response = await api.get<ArticleListRes>(
+    `/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
   );
 
   return response.data;
