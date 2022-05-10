@@ -2,31 +2,16 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
+import { ArticleListRes } from '../types/article';
 
 //tools
 import axios from 'axios';
 import styled from 'styled-components';
 
-type Article = {
-  id: number;
-  title: string;
-  description: string;
-};
-
-type PaginationMeta = {
-  pagination: {
-    page: number;
-    pageCount: number;
-    pageSize: number;
-    total: number;
-  };
-};
-
 const getData = async (page: number | string, pageSize: number | string) => {
-  const response = await axios.get<{
-    data: Article[];
-    meta: PaginationMeta;
-  }>(`http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`);
+  const response = await axios.get<ArticleListRes>(
+    `http://localhost:1337/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
+  );
 
   return response.data;
 };

@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router';
+import { ArticleDetailRes } from '../types/article';
 
 const Detail = () => {
-  const [detailData, setDetailData]: any = useState([]);
-  const [title, setTitle]: any = useState(null);
-  const [description, setDescription]: any = useState(null);
+  const [detailData, setDetailData] = useState([]);
+  const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
 
   const { id } = useParams();
 
   const getData = async () => {
     try {
-      const response = await axios.get(`http://localhost:1337/api/articles/${id}`);
+      const response = await axios.get<ArticleDetailRes>(`http://localhost:1337/api/articles/${id}`);
       return response.data;
     } catch (e) {
       console.log(e);
