@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
-import { Article, PaginationMeta } from '../types/article';
+import { Article } from '../types/article';
 import { fetchArticleList } from '../networks/article';
 
 //tools
@@ -12,27 +12,23 @@ const Pagination: FC = () => {
   // router dom
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const pageSize = searchParams.get('pageSize');
+  const page = searchParams.get('page');
 
   const [articles, setArticles] = useState<Article[]>([]);
-  const [articleMeta, setArticleMeta] = useState<PaginationMeta>();
-  const [pageSize, setPageSize]: any = useState(10);
-  const [page, setPage]: any = useState(1);
-  const [totalArticles, setTotalArticles] = useState(0);
-  const [numPage, setNumPage] = useState(totalArticles / pageSize);
+  const [totalSize, setTotalSize] = useState(0);
 
-  // query value
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageValue = searchParams.get('page');
-  const pageSizeValue = searchParams.get('pageSize');
+  const numPage = useMemo(() => {
+    if (!totalSize || !pageSize) return 0;
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const value = e.currentTarget.value;
-    setPageSize(Number(value));
-    setPage(1);
-    setNumPage(totalArticles / Number(value));
-  };
+    return totalSize / parseInt(pageSize);
+  }, [totalSize, pageSize]);
 
   useEffect(() => {
+    if (pageSize && page) {
+      return;
+    }
     navigate(
       {
         pathname: location.pathname,
@@ -43,51 +39,48 @@ const Pagination: FC = () => {
       },
       {
         replace: true,
-        state: {
-          firstPage: 1,
-          firstPageSize: 10,
-        },
       }
     );
-  }, []);
+  }, [pageSize, page]);
+
+  const onHandlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    const newSize = e.currentTarget.value;
+    navigate({
+      pathname: location.pathname,
+      search: `?${createSearchParams({
+        page: '1',
+        pageSize: newSize,
+      })}`,
+    });
+  };
+
+  const onHandlePageChange = (newPage: number) => {
+    navigate({
+      pathname: location.pathname,
+      search: `?${createSearchParams({
+        page: newPage + '',
+        pageSize: pageSize as string,
+      })}`,
+    });
+  };
 
   useEffect(() => {
     (async () => {
-      if (!pageValue || !pageSizeValue) {
+      if (!page || !pageSize) {
         return;
       }
 
       try {
-        const res = await fetchArticleList(pageValue, pageSizeValue);
+        const res = await fetchArticleList(page, pageSize);
 
         const articleData = res.data;
         setArticles(articleData);
-        const articleMetaData = res.meta;
-        const totalValue = articleMetaData.pagination.total;
-        setArticleMeta(articleMetaData);
-        setTotalArticles(totalValue);
-        setNumPage(totalArticles / pageSize);
-        navigate(
-          {
-            search: `?page=${page}&pageSize=${pageSize}`,
-          },
-          {
-            replace: true,
-          }
-        );
+        setTotalSize(res.meta.pagination.total);
       } catch (err) {
         console.error(err);
       }
     })();
   }, [page, pageSize]);
-
-  useEffect(() => {
-    if (!pageValue || !pageSizeValue) {
-      return;
-    }
-    setPage(Number(pageValue));
-    setPageSize(Number(pageSizeValue));
-  }, []);
 
   return (
     <Wrap>
@@ -95,7 +88,7 @@ const Pagination: FC = () => {
 
       <button onClick={() => navigate('/')}>HOME</button>
 
-      <select typeof="number" value={pageSize} onChange={onChange}>
+      <select typeof="number" value={pageSize} onChange={onHandlePageSizeChange}>
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={20}>20</option>
@@ -116,11 +109,10 @@ const Pagination: FC = () => {
 
       <Articles
         page={page}
-        setPage={setPage}
+        setPage={onHandlePageChange}
         pageSize={pageSize}
         numPage={numPage}
-        totalArticles={totalArticles}
-        pageValue={pageValue}
+        totalArticles={totalSize}
       />
     </Wrap>
   );
