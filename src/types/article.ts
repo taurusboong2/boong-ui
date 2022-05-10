@@ -6,6 +6,14 @@ export type Article = {
   description: string;
 };
 
+export type ArticleList = {
+  id: number;
+  attributes: {
+    title: string;
+    description: string;
+  };
+};
+
 export type PaginationMeta = {
   pagination: {
     page: number;
@@ -15,5 +23,5 @@ export type PaginationMeta = {
   };
 };
 
-export type ArticleListRes = StrapiResponse<Article[], PaginationMeta>;
+export type ArticleListRes = StrapiResponse<ArticleList[], PaginationMeta>;
 export type ArticleDetailRes = StrapiResponse<Article>;

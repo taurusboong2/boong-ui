@@ -4,8 +4,7 @@ import Articles from '../components/Articles';
 import '../pagination.scss';
 import { Article } from '../types/article';
 import { fetchArticleList } from '../networks/article';
-
-//tools
+import { useArticleList } from '../hooks/article.hook';
 import styled from 'styled-components';
 
 const Pagination: FC = () => {
@@ -13,10 +12,14 @@ const Pagination: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const pageSize = searchParams.get('pageSize');
-  const page = searchParams.get('page');
 
-  const [articles, setArticles] = useState<Article[]>([]);
+  const pageSize = searchParams.get('pageSize') || '10';
+  const page = searchParams.get('page') || '1';
+
+  // const [articles, setArticles] = useState<Article[]>([]);
+  // const { articles } = useArticleList(page, pageSize);
+  const { articles } = useArticleList(page, pageSize);
+
   const [totalSize, setTotalSize] = useState(0);
 
   const numPage = useMemo(() => {
@@ -26,9 +29,9 @@ const Pagination: FC = () => {
   }, [totalSize, pageSize]);
 
   useEffect(() => {
-    if (pageSize && page) {
-      return;
-    }
+    // if (pageSize && page) {
+    //   return;
+    // }
     navigate(
       {
         pathname: location.pathname,
@@ -41,7 +44,7 @@ const Pagination: FC = () => {
         replace: true,
       }
     );
-  }, [pageSize, page]);
+  }, [articles]);
 
   const onHandlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newSize = e.currentTarget.value;
@@ -64,25 +67,29 @@ const Pagination: FC = () => {
     });
   };
 
-  useEffect(() => {
-    (async () => {
-      if (!page || !pageSize) {
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     if (!page || !pageSize) {
+  //       return;
+  //     }
 
-      try {
-        const res = await fetchArticleList(page, pageSize);
+  //     try {
+  //       const res = await fetchArticleList(page, pageSize);
 
-        const articleData = res.data;
-        setArticles(articleData);
-        setTotalSize(res.meta.pagination.total);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
-  }, [page, pageSize]);
+  //       // const articleData = res.data;
+  //       // setArticles(articleData);
+  //       setTotalSize(res.meta.pagination.total);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   })();
+  // }, [page, pageSize]);
 
   // 로딩처리 해보기
+
+  if (!articles) {
+    return <div>로딩중..</div>;
+  }
 
   return (
     <Wrap>

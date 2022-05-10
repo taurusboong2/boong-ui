@@ -10,7 +10,6 @@ export const fetchArticleList = async (page: number | string, pageSize: number |
   const response = await api.get<ArticleListRes>(
     `/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
   );
-
   return response.data;
 };
 

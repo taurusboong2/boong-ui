@@ -108,7 +108,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
           ←
         </Button>
         <PageUl className="pagination">
-          {/* {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
+          {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
                 <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
@@ -116,7 +116,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
                 </Link>
               </PageSpan>
             </PageLi>
-          ))} */}
+          ))}
           {pageNumberList}
         </PageUl>
         <Button onClick={nextBtnClick} disabled={page === numPage}>
