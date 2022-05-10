@@ -2,19 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
-import { ArticleListRes, Article, PaginationMeta } from '../types/article';
-import { api } from '../common/api';
+import { Article, PaginationMeta } from '../types/article';
+import { fetchArticleList } from '../networks/article';
 
 //tools
 import styled from 'styled-components';
-
-const getData = async (page: number | string, pageSize: number | string) => {
-  const response = await api.get<ArticleListRes>(
-    `/api/articles/?pagination[page]=${page}&pagination[pageSize]=${pageSize}`
-  );
-
-  return response.data;
-};
 
 const Pagination: FC = () => {
   // router dom
@@ -66,7 +58,7 @@ const Pagination: FC = () => {
       }
 
       try {
-        const res = await getData(pageValue, pageSizeValue);
+        const res = await fetchArticleList(pageValue, pageSizeValue);
 
         const articleData = res.data;
         setArticles(articleData);

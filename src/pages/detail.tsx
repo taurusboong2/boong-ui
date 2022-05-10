@@ -1,31 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
-import { ArticleDetailRes } from '../types/article';
-import { api } from '../common/api';
+import { fetchArticleDetail } from '../networks/article';
+import { Article } from '../types/article';
 
 const Detail = () => {
-  const [detailData, setDetailData] = useState([]);
-  const [title, setTitle] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [detailData, setDetailData] = useState<Article>();
 
   const { id } = useParams();
 
-  const getData = async () => {
-    try {
-      const response = await api.get<ArticleDetailRes>(`api/articles/${id}`);
-      return response.data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    getData().then(res => {
+    fetchArticleDetail(id).then(res => {
       const articleData = res.data;
       setDetailData(articleData);
-      setTitle(articleData.attributes.title);
-      setDescription(articleData.attributes.description);
     });
   }, [id]);
 
