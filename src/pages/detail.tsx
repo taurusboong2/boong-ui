@@ -10,6 +10,7 @@ const Detail = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    if (!id) return;
     fetchArticleDetail(id).then(res => {
       const articleData = res.data;
       setDetailData(articleData);
