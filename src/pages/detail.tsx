@@ -16,19 +16,19 @@ const Detail = () => {
     });
   }, [id]);
 
-  console.log(detailData);
-  console.log(title);
-  console.log(description);
+  if (!detailData) {
+    return <div>로딩중...</div>;
+  }
 
   return (
     <>
       <Header>Detail</Header>
       <MainWrap>
         <h2>
-          {title}
+          {detailData.title}
           <p>{detailData.id}번 게시글</p>
         </h2>
-        <p>{description}</p>
+        <p>{detailData.description}</p>
       </MainWrap>
     </>
   );
