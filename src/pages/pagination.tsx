@@ -23,9 +23,6 @@ const Pagination: FC = () => {
   }, [totalSize, pageSize]);
 
   useEffect(() => {
-    console.log(`page : `, page);
-    console.log(`pageSize : `, pageSize);
-
     if (pageSize && page) {
       return;
     }

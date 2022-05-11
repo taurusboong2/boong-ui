@@ -16,16 +16,16 @@ type Props = {
 };
 
 const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }) => {
-  const NumPage = Number(page);
+  const NumberPage = Number(page);
   const NumPageSize = Number(pageSize);
 
   const pageList: number[] = useMemo(() => {
-    const pageCount: number[] = [];
+    const pages: number[] = [];
     for (let i = 1; i <= Math.ceil(totalArticles / NumPageSize); i++) {
-      pageCount.push(i);
+      pages.push(i);
     }
-    return pageCount;
-  }, [[NumPage, NumPageSize]]);
+    return pages;
+  }, [totalArticles, NumPageSize]);
 
   console.log(`페이지목록개수 :`, pageList);
 
@@ -53,9 +53,9 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
   };
 
   const nextBtnClick = () => {
-    setPage(NumPage + 1);
+    setPage(NumberPage + 1);
 
-    if (NumPage + 1 > currentPage.endIndex) {
+    if (NumberPage + 1 > currentPage.endIndex) {
       setCurrentPage({
         endIndex: currentPage.endIndex + pageLimit,
         startIndex: currentPage.startIndex + pageLimit,
@@ -64,9 +64,9 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
   };
 
   const prevBtnClick = () => {
-    setPage(NumPage - 1);
+    setPage(NumberPage - 1);
 
-    if ((NumPage - 1) % pageLimit == 0) {
+    if ((NumberPage - 1) % pageLimit == 0) {
       setCurrentPage({
         endIndex: currentPage.endIndex - pageLimit,
         startIndex: currentPage.startIndex - pageLimit,
@@ -98,7 +98,9 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
     if (number < currentPage.endIndex + 1 && number > currentPage.startIndex) {
       return (
         <PageLi key={number} className="page-item">
-          <PageSpan onClick={() => setPage(number)} className={NumPage === number ? 'page-link active' : 'page-link'}>
+          <PageSpan
+            onClick={() => setPage(number)}
+            className={NumberPage === number ? 'page-link active' : 'page-link'}>
             <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
               {number}
             </Link>
@@ -113,10 +115,10 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
   return (
     <>
       <PageBtn>
-        <Button onClick={firstBtnClick} disabled={page === 1}>
+        <Button onClick={firstBtnClick} disabled={NumberPage === 1}>
           ←←
         </Button>
-        <Button onClick={prevBtnClick} disabled={page === 1}>
+        <Button onClick={prevBtnClick} disabled={NumberPage === 1}>
           ←
         </Button>
         <PageUl className="pagination">
@@ -131,10 +133,10 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
           ))} */}
           {pageNumberList}
         </PageUl>
-        <Button onClick={nextBtnClick} disabled={page === numPage}>
+        <Button onClick={nextBtnClick} disabled={NumberPage === numPage}>
           →
         </Button>
-        <Button onClick={lastBtnClick} disabled={page === numPage}>
+        <Button onClick={lastBtnClick} disabled={NumberPage === numPage}>
           →→
         </Button>
       </PageBtn>
