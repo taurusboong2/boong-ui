@@ -98,7 +98,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
     if (number < currentPage.endIndex + 1 && number > currentPage.startIndex) {
       return (
         <PageLi key={number} className="page-item">
-          <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
+          <PageSpan onClick={() => setPage(number)} className={NumPage === number ? 'page-link active' : 'page-link'}>
             <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
               {number}
             </Link>
@@ -202,7 +202,15 @@ const PageLi = styled.li`
     color: white;
     background-color: #263a6c;
   }
+
   .active {
+    padding: 0 3px;
+    border-radius: 5px;
+    color: white;
+    background-color: #263a6c;
+  }
+  &:active,
+  &:focus {
     padding: 0 3px;
     border-radius: 5px;
     color: white;
