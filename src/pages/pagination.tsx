@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState, useMemo } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
-import '../pagination.scss';
 // import { Article, ArticleListItem } from '../types/article';
 import { useArticleList } from '../hooks/article.hook';
 import styled from 'styled-components';
@@ -71,7 +70,11 @@ const Pagination: FC = () => {
     <Wrap>
       <header>Article List</header>
 
-      <button onClick={() => navigate('/')}>HOME</button>
+      <Button onClick={() => navigate('/')}>HOME</Button>
+
+      <Link to="/pagination/paginationCreate">
+        <CreateBtn>CREATE</CreateBtn>
+      </Link>
 
       <select typeof="number" value={pageSize} onChange={onHandlePageSizeChange}>
         <option value={5}>5</option>
@@ -137,3 +140,12 @@ const ArticleList = styled.div`
     font-weight: bold;
   }
 `;
+
+const Button = styled.button`
+  min-width: 150px;
+  min-height: 20px;
+  margin: 10px 0;
+  cursor: pointer;
+`;
+
+const CreateBtn = styled(Button)``;

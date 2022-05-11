@@ -16,7 +16,6 @@ export const useArticleDetail = (id?: number | string) => {
   return { article };
 };
 
-/// useArticleList 직접 구현하기
 export const useArticleList = (page?: number | string, pageSize?: number | string) => {
   const [articlesData, setArticlesData] = useState<ArticleListItem[]>();
   const [totalSize, setTotalSize] = useState(0);

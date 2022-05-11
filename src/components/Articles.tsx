@@ -27,8 +27,6 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
     return pages;
   }, [totalArticles, NumPageSize]);
 
-  console.log(`페이지목록개수 :`, pageList);
-
   const [currentPage, setCurrentPage] = useState<currentPageType>({
     startIndex: 0,
     endIndex: 10,
@@ -121,18 +119,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
         <Button onClick={prevBtnClick} disabled={NumberPage === 1}>
           ←
         </Button>
-        <PageUl className="pagination">
-          {/* {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
-            <PageLi key={number} className="page-item">
-              <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
-                <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
-                  {number}
-                </Link>
-              </PageSpan>
-            </PageLi>
-          ))} */}
-          {pageNumberList}
-        </PageUl>
+        <PageUl className="pagination">{pageNumberList}</PageUl>
         <Button onClick={nextBtnClick} disabled={NumberPage === numPage}>
           →
         </Button>
