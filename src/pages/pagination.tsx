@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
-import { Article } from '../types/article';
+import { Article, ArticleList } from '../types/article';
 import { fetchArticleList } from '../networks/article';
 import { useArticleList } from '../hooks/article.hook';
 import styled from 'styled-components';
@@ -13,12 +13,11 @@ const Pagination: FC = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  const pageSize = searchParams.get('pageSize') || '10';
-  const page = searchParams.get('page') || '1';
+  const pageSize = searchParams.get('pageSize');
+  const page = searchParams.get('page');
 
-  // const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleList[]>([]);
   // const { articles } = useArticleList(page, pageSize);
-  const { articles } = useArticleList(page, pageSize);
 
   const [totalSize, setTotalSize] = useState(0);
 
@@ -67,28 +66,30 @@ const Pagination: FC = () => {
     });
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!page || !pageSize) {
-  //       return;
-  //     }
+  useEffect(() => {
+    (async () => {
+      if (!page || !pageSize) {
+        return;
+      }
 
-  //     try {
-  //       const res = await fetchArticleList(page, pageSize);
+      try {
+        const res = await fetchArticleList(page, pageSize);
 
-  //       // const articleData = res.data;
-  //       // setArticles(articleData);
-  //       setTotalSize(res.meta.pagination.total);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   })();
-  // }, [page, pageSize]);
+        const articleData = res.data;
+        setArticles(articleData);
+        setTotalSize(res.meta.pagination.total);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [page, pageSize]);
 
   // 로딩처리 해보기
 
   if (!articles) {
     return <div>로딩중..</div>;
+  } else if (!pageSize) {
+    return <>페이지 사이즈 오류</>;
   }
 
   return (

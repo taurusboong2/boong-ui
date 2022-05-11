@@ -8,7 +8,7 @@ export const useArticleDetail = (id?: number | string) => {
   useEffect(() => {
     if (!id) return;
     fetchArticleDetail(id).then(res => {
-      const articleData = res.data;
+      const articleData = res.data.data;
       setArticle(articleData);
     });
   }, [id]);
@@ -18,7 +18,7 @@ export const useArticleDetail = (id?: number | string) => {
 
 /// useArticleList 직접 구현하기
 export const useArticleList = (page?: number | string, pageSize?: number | string) => {
-  const [articles, setArticles] = useState<ArticleList[]>();
+  const [articles, setArticles] = useState<ArticleList[]>([]);
 
   useEffect(() => {
     if (!page || !pageSize) {

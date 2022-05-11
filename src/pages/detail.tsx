@@ -16,10 +16,10 @@ const Detail = () => {
       <Header>Detail</Header>
       <MainWrap>
         <h2>
-          {article.title}
+          {article.attributes.title}
           <p>{article.id}번 게시글</p>
         </h2>
-        <p>{article.description}</p>
+        <p>{article.attributes.description}</p>
       </MainWrap>
     </>
   );

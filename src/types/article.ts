@@ -2,8 +2,10 @@ import { StrapiResponse } from './strapi';
 
 export type Article = {
   id: number;
-  title: string;
-  description: string;
+  attributes: {
+    title: string;
+    description: string;
+  };
 };
 
 export type ArticleList = {
