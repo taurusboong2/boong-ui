@@ -13,24 +13,26 @@ const Pagination: FC = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  const pageSize = searchParams.get('pageSize');
-  const page = searchParams.get('page');
+  const pageSize = searchParams.get('pageSize') || undefined;
+  const page = searchParams.get('page') || undefined;
 
-  const [articles, setArticles] = useState<ArticleList[]>([]);
-  // const { articles } = useArticleList(page, pageSize);
+  // const [articles, setArticles] = useState<ArticleList[]>([]);
+  // const [totalSize, setTotalSize] = useState(0);
 
-  const [totalSize, setTotalSize] = useState(0);
+  const { articlesData, totalSize } = useArticleList(page, pageSize);
 
   const numPage = useMemo(() => {
     if (!totalSize || !pageSize) return 0;
-
     return totalSize / parseInt(pageSize);
   }, [totalSize, pageSize]);
 
   useEffect(() => {
-    // if (pageSize && page) {
-    //   return;
-    // }
+    console.log(`page : `, page);
+    console.log(`pageSize : `, pageSize);
+
+    if (pageSize && page) {
+      return;
+    }
     navigate(
       {
         pathname: location.pathname,
@@ -43,7 +45,7 @@ const Pagination: FC = () => {
         replace: true,
       }
     );
-  }, [articles]);
+  }, [page, pageSize]);
 
   const onHandlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newSize = e.currentTarget.value;
@@ -67,26 +69,24 @@ const Pagination: FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      if (!page || !pageSize) {
-        return;
-      }
-
-      try {
-        const res = await fetchArticleList(page, pageSize);
-
-        const articleData = res.data;
-        setArticles(articleData);
-        setTotalSize(res.meta.pagination.total);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
+    // (async () => {
+    //   if (!page || !pageSize) {
+    //     return;
+    //   }
+    //   try {
+    //     const res = await fetchArticleList(page, pageSize);
+    //     const articleData = res.data;
+    //     setArticles(articleData);
+    //     setTotalSize(res.meta.pagination.total);
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // })();
   }, [page, pageSize]);
 
   // 로딩처리 해보기
 
-  if (!articles) {
+  if (!articlesData) {
     return <div>로딩중..</div>;
   } else if (!pageSize) {
     return <>페이지 사이즈 오류</>;
@@ -105,7 +105,7 @@ const Pagination: FC = () => {
       </select>
 
       <Main>
-        {articles.map((e, i): any => {
+        {articlesData.map((e, i): any => {
           return (
             <ArticleList key={i}>
               <Link to={{ pathname: `/detail/${e.id}` }}>

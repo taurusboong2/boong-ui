@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { fetchArticleDetail, fetchArticleList } from '../networks/article';
-import { Article, ArticleList } from '../types/article';
+import { Article, ArticleList, PaginationMeta } from '../types/article';
 
 export const useArticleDetail = (id?: number | string) => {
   const [article, setArticle] = useState<Article>();
@@ -18,18 +18,21 @@ export const useArticleDetail = (id?: number | string) => {
 
 /// useArticleList 직접 구현하기
 export const useArticleList = (page?: number | string, pageSize?: number | string) => {
-  const [articles, setArticles] = useState<ArticleList[]>([]);
+  const [articlesData, setArticlesData] = useState<ArticleList[]>();
+  const [totalSize, setTotalSize] = useState(0);
 
   useEffect(() => {
     if (!page || !pageSize) {
       return;
     }
+
     fetchArticleList(page, pageSize).then(res => {
       const articleData = res.data;
-      console.log(articleData);
-      setArticles(articleData);
+      const articleMeta = res.meta;
+      setArticlesData(articleData);
+      setTotalSize(articleMeta.pagination.total);
     });
   }, [page, pageSize]);
 
-  return { articles };
+  return { articlesData, totalSize };
 };
