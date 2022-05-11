@@ -8,7 +8,7 @@ export type Article = {
   };
 };
 
-export type ArticleList = {
+export type ArticleListItem = {
   id: number;
   attributes: {
     title: string;
@@ -25,5 +25,5 @@ export type PaginationMeta = {
   };
 };
 
-export type ArticleListRes = StrapiResponse<ArticleList[], PaginationMeta>;
+export type ArticleListRes = StrapiResponse<ArticleListItem[], PaginationMeta>;
 export type ArticleDetailRes = StrapiResponse<Article>;

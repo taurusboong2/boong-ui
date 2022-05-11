@@ -2,8 +2,7 @@ import React, { FC, useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
 import '../pagination.scss';
-import { Article, ArticleList } from '../types/article';
-import { fetchArticleList } from '../networks/article';
+// import { Article, ArticleListItem } from '../types/article';
 import { useArticleList } from '../hooks/article.hook';
 import styled from 'styled-components';
 
@@ -15,9 +14,6 @@ const Pagination: FC = () => {
 
   const pageSize = searchParams.get('pageSize') || undefined;
   const page = searchParams.get('page') || undefined;
-
-  // const [articles, setArticles] = useState<ArticleList[]>([]);
-  // const [totalSize, setTotalSize] = useState(0);
 
   const { articlesData, totalSize } = useArticleList(page, pageSize);
 
@@ -67,24 +63,6 @@ const Pagination: FC = () => {
       })}`,
     });
   };
-
-  useEffect(() => {
-    // (async () => {
-    //   if (!page || !pageSize) {
-    //     return;
-    //   }
-    //   try {
-    //     const res = await fetchArticleList(page, pageSize);
-    //     const articleData = res.data;
-    //     setArticles(articleData);
-    //     setTotalSize(res.meta.pagination.total);
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
-    // })();
-  }, [page, pageSize]);
-
-  // 로딩처리 해보기
 
   if (!articlesData) {
     return <div>로딩중..</div>;

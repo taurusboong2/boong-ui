@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -7,24 +7,36 @@ interface currentPageType {
   endIndex: number;
 }
 
-type Props = any; // 형이 직접 고치지
+type Props = {
+  page: number | string | undefined;
+  setPage: any;
+  pageSize: number | string;
+  numPage: number;
+  totalArticles: number;
+};
 
-const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, pageValue }) => {
-  const pageList: number[] = [];
+const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }) => {
+  const NumPage = Number(page);
+  const NumPageSize = Number(pageSize);
 
-  for (let i = 1; i <= Math.ceil(totalArticles / pageSize); i++) {
-    // useMemo 사용해서 고치기
-    pageList.push(i);
-  }
+  const pageList: number[] = useMemo(() => {
+    const pageCount: number[] = [];
+    for (let i = 1; i <= Math.ceil(totalArticles / NumPageSize); i++) {
+      pageCount.push(i);
+    }
+    return pageCount;
+  }, [[NumPage, NumPageSize]]);
+
+  console.log(`페이지목록개수 :`, pageList);
 
   const [currentPage, setCurrentPage] = useState<currentPageType>({
     startIndex: 0,
     endIndex: 10,
   });
 
-  const [pageLimit, setPageLimit] = useState(10);
+  const pageLimit = 10;
 
-  const goPage = number => {
+  const goPage = (number): void => {
     setPage(number);
 
     if (number + 1 > currentPage.endIndex) {
@@ -41,9 +53,9 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
   };
 
   const nextBtnClick = () => {
-    setPage(Number(pageValue) + 1);
+    setPage(NumPage + 1);
 
-    if (page + 1 > currentPage.endIndex) {
+    if (NumPage + 1 > currentPage.endIndex) {
       setCurrentPage({
         endIndex: currentPage.endIndex + pageLimit,
         startIndex: currentPage.startIndex + pageLimit,
@@ -52,9 +64,9 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
   };
 
   const prevBtnClick = () => {
-    setPage(Number(pageValue) - 1);
+    setPage(NumPage - 1);
 
-    if ((page - 1) % pageLimit == 0) {
+    if ((NumPage - 1) % pageLimit == 0) {
       setCurrentPage({
         endIndex: currentPage.endIndex - pageLimit,
         startIndex: currentPage.startIndex - pageLimit,
@@ -108,7 +120,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
           ←
         </Button>
         <PageUl className="pagination">
-          {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
+          {/* {pageList.slice(currentPage.startIndex, currentPage.endIndex).map(number => (
             <PageLi key={number} className="page-item">
               <PageSpan onClick={() => setPage(number)} className={page === number ? 'page-link active' : 'page-link'}>
                 <Link onClick={goPage} to={`?page=${number}&pageSize=${pageSize}`}>
@@ -116,7 +128,7 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles, 
                 </Link>
               </PageSpan>
             </PageLi>
-          ))}
+          ))} */}
           {pageNumberList}
         </PageUl>
         <Button onClick={nextBtnClick} disabled={page === numPage}>
