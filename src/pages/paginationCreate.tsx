@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { createArticle } from '../networks/article';
-import { ArticleCreateValue, inputValueType } from '../types/article';
+import { ArticleCreateValue } from '../types/article';
 
 const PaginationCreate = () => {
   const navigate = useNavigate();
@@ -22,24 +21,24 @@ const PaginationCreate = () => {
 
   const inputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = e.target;
-    setInputData({
-      ...inputData,
-      data: {
-        [name]: value,
-      },
-    });
+    if (name == 'title') {
+      setInputData({
+        ...inputData,
+        data: {
+          title: value,
+          description: description,
+        },
+      });
+    } else if (name == 'description') {
+      setInputData({
+        ...inputData,
+        data: {
+          title: title,
+          description: value,
+        },
+      });
+    }
   };
-
-  // const createArticle = async () => {
-  //   console.log(inputData);
-  //   const response = await axios.post<ArticleCreateValue>('http://localhost:1337/api/articles', {
-  //     data: {
-  //       ...inputData,
-  //     },
-  //   });
-  //   console.log(response);
-  //   navigate(-1);
-  // };
 
   return (
     <div>

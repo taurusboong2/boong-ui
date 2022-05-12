@@ -1,5 +1,5 @@
 import { api } from '../common/api';
-import { ArticleListRes, ArticleDetailRes, ArticleCreateValue, inputValueType } from '../types/article';
+import { ArticleListRes, ArticleDetailRes, ArticleCreateValue } from '../types/article';
 
 // 보통
 // GET -> fetch or get

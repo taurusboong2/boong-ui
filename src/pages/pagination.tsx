@@ -18,7 +18,7 @@ const Pagination: FC = () => {
 
   const numPage = useMemo(() => {
     if (!totalSize || !pageSize) return 0;
-    return totalSize / parseInt(pageSize);
+    return Math.ceil(totalSize / parseInt(pageSize));
   }, [totalSize, pageSize]);
 
   useEffect(() => {
