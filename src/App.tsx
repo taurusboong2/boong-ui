@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <Route path="/pagination" element={<Pagination />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/pagination/paginationCreate" element={<PaginationCreate />} />
-          <Route path="/pagination/paginationPatch" element={<PaginationPatch />} />
+          <Route path="/pagination/paginationPatch/:id" element={<PaginationPatch />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

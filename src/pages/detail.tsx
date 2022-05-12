@@ -33,7 +33,7 @@ const Detail = () => {
           삭제
         </button>
         <button className="patchBtn">
-          <Link to="/pagination/paginationPatch">수정</Link>
+          <Link to={`/pagination/paginationPatch/${id}`}>수정</Link>
         </button>
       </BtnWrap>
     </>

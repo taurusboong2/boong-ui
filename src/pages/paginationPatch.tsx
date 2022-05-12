@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { useArticleDetail } from '../hooks/article.hook';
 
 const PaginationPatch = () => {
   const navigate = useNavigate();
   const pageGoBack = () => navigate(-1);
   const pageGoHome = () => navigate('/');
+
+  const { id } = useParams();
+  const { article } = useArticleDetail(id);
+
+  const [newInputValue, setNewInputValue] = useState({
+    title: '',
+    description: '',
+  });
 
   return (
     <div>
@@ -18,10 +27,10 @@ const PaginationPatch = () => {
         <InputWrap>
           <h2>게시글 수정하기</h2>
           <div>
-            <input type="text" name="title" id="title" />
+            <input type="text" name="title" id="title" value={article?.attributes.title} />
           </div>
           <div>
-            <input type="text" name="description" id="description" />
+            <input type="text" name="description" id="description" value={article?.attributes.description} />
           </div>
           <input id="submit_btn" type="button" value="수정" />
         </InputWrap>
