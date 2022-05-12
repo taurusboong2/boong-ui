@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail } from '../hooks/article.hook';
+import { removeArticle } from '../networks/article';
 
 const Detail = () => {
   const { id } = useParams();
   const { article } = useArticleDetail(id);
+  const navigate = useNavigate();
 
   if (!article) {
     return <div>로딩중...</div>;
@@ -21,6 +23,16 @@ const Detail = () => {
         </h2>
         <p>{article.attributes.description}</p>
       </MainWrap>
+      <BtnWrap>
+        <button
+          className="deleteBtn"
+          onClick={() => {
+            removeArticle(`${id}`), navigate('/pagination?page=1&pageSize=10');
+          }}>
+          삭제
+        </button>
+        <button className="patchBtn">수정</button>
+      </BtnWrap>
     </>
   );
 };
@@ -54,6 +66,36 @@ const MainWrap = styled.div`
     p {
       font-size: 1rem;
       color: #888;
+    }
+  }
+`;
+
+const BtnWrap = styled.div`
+  padding: 10px;
+  width: 150px;
+  display: flex;
+  border: 1px solid #999;
+  margin: 35px auto 0;
+  justify-content: center;
+  column-gap: 20px;
+
+  button {
+    background-color: #cc0033;
+    outline: none;
+    border: 1px solid #999;
+    padding: 5px 10px;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f46414;
+    }
+  }
+  button.patchBtn {
+    background-color: #74c580;
+
+    &:hover {
+      background-color: #39a78e;
     }
   }
 `;

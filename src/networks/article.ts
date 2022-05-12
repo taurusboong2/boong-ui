@@ -22,3 +22,10 @@ export const createArticle = async (data: ArticleCreateValue) => {
   const response = await api.post<ArticleCreateValue>(`api/articles`, data);
   console.log(response);
 };
+
+export const removeArticle = async (id: string | number) => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    const response = await api.delete<ArticleDetailRes>(`api/articles/${id}`);
+    console.log(response);
+  }
+};

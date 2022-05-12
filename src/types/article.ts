@@ -30,7 +30,7 @@ export type ArticleDetailRes = StrapiResponse<Article>;
 
 export type ArticleCreateValue = {
   data: {
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
   };
 };

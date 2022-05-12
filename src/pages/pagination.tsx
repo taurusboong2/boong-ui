@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { Link, useSearchParams, useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import Articles from '../components/Articles';
-// import { Article, ArticleListItem } from '../types/article';
 import { useArticleList } from '../hooks/article.hook';
 import styled from 'styled-components';
 
@@ -37,7 +36,7 @@ const Pagination: FC = () => {
         replace: true,
       }
     );
-  }, [page, pageSize]);
+  }, [page, pageSize, totalSize]);
 
   const onHandlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const newSize = e.currentTarget.value;
