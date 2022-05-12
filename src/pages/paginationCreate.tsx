@@ -16,12 +16,23 @@ const PaginationCreate = () => {
 
   const { title, description } = inputData;
 
-  const inputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = e.target;
     setInputData({
       ...inputData,
       [name]: value,
     });
+  };
+
+  const createArticle = async () => {
+    console.log(inputData);
+    const response = await axios.post('http://localhost:1337/api/articles', {
+      data: {
+        ...inputData,
+      },
+    });
+    console.log(response);
+    navigate(-1);
   };
 
   return (
@@ -57,7 +68,7 @@ const PaginationCreate = () => {
               onChange={inputValueChange}
             />
           </div>
-          <input id="submit_btn" type="button" value="생성" onClick={() => {}} />
+          <input id="submit_btn" type="button" value="생성" onClick={createArticle} />
         </InputWrap>
       </ContentWrap>
     </div>
@@ -142,7 +153,7 @@ const InputWrap = styled.div`
     }
   }
 
-  #submit_btn {
+  input {
     padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
