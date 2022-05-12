@@ -24,7 +24,7 @@ export const createArticle = async (data: ArticleCreateValue) => {
 };
 
 export const removeArticle = async (id: string | number) => {
-  if (confirm('정말 삭제하시겠습니까?')) {
+  if (confirm('현재 Article을 삭제하시겠습니까?')) {
     const response = await api.delete<ArticleDetailRes>(`api/articles/${id}`);
     console.log(response);
   }

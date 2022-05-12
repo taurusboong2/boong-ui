@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchArticleDetail, fetchArticleList } from '../networks/article';
 import { Article, ArticleListItem } from '../types/article';
-import { useNavigate } from 'react-router';
 
 export const useArticleDetail = (id?: number | string) => {
   const [article, setArticle] = useState<Article>();
@@ -36,14 +35,4 @@ export const useArticleList = (page?: number | string, pageSize?: number | strin
   }, [page, pageSize]);
 
   return { articlesData, totalSize };
-};
-
-export const UsepageGoBack = () => {
-  const navigate = useNavigate();
-  navigate(-1);
-};
-
-export const UsepageGoHome = () => {
-  const navigate = useNavigate();
-  navigate('/');
 };

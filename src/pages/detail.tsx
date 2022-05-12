@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail } from '../hooks/article.hook';
 import { removeArticle } from '../networks/article';
+import { Link } from 'react-router-dom';
 
 const Detail = () => {
   const { id } = useParams();
@@ -31,7 +32,9 @@ const Detail = () => {
           }}>
           삭제
         </button>
-        <button className="patchBtn">수정</button>
+        <button className="patchBtn">
+          <Link to="/pagination/paginationPatch">수정</Link>
+        </button>
       </BtnWrap>
     </>
   );
