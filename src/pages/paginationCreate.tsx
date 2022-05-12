@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
+import { ArticleCreateValue } from '../types/article';
 
-const paginationCreate = () => {
+const PaginationCreate = () => {
   const navigate = useNavigate();
-
   const pageGoBack = () => navigate(-1);
   const pageGoHome = () => navigate('/');
+
+  const [inputData, setInputData] = useState<ArticleCreateValue>({
+    title: '',
+    description: '',
+  });
+
+  const { title, description } = inputData;
+
+  const inputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setInputData({
+      ...inputData,
+      [name]: value,
+    });
+  };
 
   return (
     <div>
@@ -17,13 +32,39 @@ const paginationCreate = () => {
           <NavigateBtn onClick={pageGoBack}>뒤로가기</NavigateBtn>
           <NavigateBtn onClick={pageGoHome}>홈으로가기</NavigateBtn>
         </BtnWrap>
-        <InputWrap>입력창</InputWrap>
+        <InputWrap>
+          <h2>새로운 게시글 작성</h2>
+          <div>
+            <label htmlFor="title">게시글 제목 입력칸</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="제목 입력"
+              value={title}
+              onChange={inputValueChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">게시글 내용 입력칸</label>
+            <textarea
+              name="description"
+              id="des"
+              cols={30}
+              rows={5}
+              placeholder="내용 입력"
+              value={description}
+              onChange={inputValueChange}
+            />
+          </div>
+          <input id="submit_btn" type="button" value="생성" onClick={() => {}} />
+        </InputWrap>
       </ContentWrap>
     </div>
   );
 };
 
-export default paginationCreate;
+export default PaginationCreate;
 
 const Header = styled.div`
   width: 100%;
@@ -61,4 +102,49 @@ const InputWrap = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  h2 {
+    font-size: 1.5rem;
+    padding: 10px 35px;
+    border: 3px solid #999;
+    margin-bottom: 40px;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    padding: 20px;
+    margin-bottom: 30px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #999;
+
+    label {
+      font-size: 1.25rem;
+      width: 70%;
+      text-align: center;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      border-bottom: 1px dotted #999;
+    }
+
+    input,
+    textarea {
+      width: 70%;
+      text-align: center;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+    input::placeholder {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+
+  #submit_btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
 `;
