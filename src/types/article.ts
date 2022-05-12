@@ -28,7 +28,14 @@ export type PaginationMeta = {
 export type ArticleListRes = StrapiResponse<ArticleListItem[], PaginationMeta>;
 export type ArticleDetailRes = StrapiResponse<Article>;
 
-export type ArticleCreateValue = {
+export type inputValueType = {
   title: string;
   description: string;
+};
+
+export type ArticleCreateValue = {
+  data: {
+    title?: string;
+    description?: string;
+  };
 };

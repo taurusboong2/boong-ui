@@ -1,5 +1,5 @@
 import { api } from '../common/api';
-import { ArticleListRes, ArticleDetailRes } from '../types/article';
+import { ArticleListRes, ArticleDetailRes, ArticleCreateValue, inputValueType } from '../types/article';
 
 // 보통
 // GET -> fetch or get
@@ -16,4 +16,9 @@ export const fetchArticleList = async (page: number | string, pageSize: number |
 export const fetchArticleDetail = async (id: string | number) => {
   const response = await api.get<ArticleDetailRes>(`api/articles/${id}`);
   return response;
+};
+
+export const createArticle = async (data: ArticleCreateValue) => {
+  const response = await api.post<ArticleCreateValue>(`api/articles`, data);
+  console.log(response);
 };

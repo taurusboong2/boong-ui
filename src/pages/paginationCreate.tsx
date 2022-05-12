@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { ArticleCreateValue } from '../types/article';
+import { createArticle } from '../networks/article';
+import { ArticleCreateValue, inputValueType } from '../types/article';
 
 const PaginationCreate = () => {
   const navigate = useNavigate();
@@ -10,30 +11,35 @@ const PaginationCreate = () => {
   const pageGoHome = () => navigate('/');
 
   const [inputData, setInputData] = useState<ArticleCreateValue>({
-    title: '',
-    description: '',
+    data: {
+      title: '',
+      description: '',
+    },
   });
 
-  const { title, description } = inputData;
+  const { data } = inputData;
+  const { title, description } = data;
 
   const inputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = e.target;
     setInputData({
       ...inputData,
-      [name]: value,
+      data: {
+        [name]: value,
+      },
     });
   };
 
-  const createArticle = async () => {
-    console.log(inputData);
-    const response = await axios.post('http://localhost:1337/api/articles', {
-      data: {
-        ...inputData,
-      },
-    });
-    console.log(response);
-    navigate(-1);
-  };
+  // const createArticle = async () => {
+  //   console.log(inputData);
+  //   const response = await axios.post<ArticleCreateValue>('http://localhost:1337/api/articles', {
+  //     data: {
+  //       ...inputData,
+  //     },
+  //   });
+  //   console.log(response);
+  //   navigate(-1);
+  // };
 
   return (
     <div>
@@ -68,7 +74,14 @@ const PaginationCreate = () => {
               onChange={inputValueChange}
             />
           </div>
-          <input id="submit_btn" type="button" value="생성" onClick={createArticle} />
+          <input
+            id="submit_btn"
+            type="button"
+            value="생성"
+            onClick={() => {
+              createArticle(inputData), navigate(-1);
+            }}
+          />
         </InputWrap>
       </ContentWrap>
     </div>
