@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail } from '../hooks/article.hook';
+import { ArticleCreateValue } from '../types/article';
+import axios from 'axios';
+import { createLogicalOr } from 'typescript';
 
 const PaginationPatch = () => {
   const navigate = useNavigate();
@@ -11,10 +14,46 @@ const PaginationPatch = () => {
   const { id } = useParams();
   const { article } = useArticleDetail(id);
 
-  const [newInputValue, setNewInputValue] = useState({
-    title: '',
-    description: '',
+  const [newInputValue, setNewInputValue] = useState<ArticleCreateValue>({
+    data: {
+      title: '',
+      description: '',
+    },
   });
+
+  const { data } = newInputValue;
+  const { title, description } = data;
+
+  const handleNewInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    if (name == 'title') {
+      setNewInputValue({
+        ...newInputValue,
+        data: {
+          title: value,
+          description: description,
+        },
+      });
+    } else if (name == 'description') {
+      setNewInputValue({
+        ...newInputValue,
+        data: {
+          title: title,
+          description: value,
+        },
+      });
+    }
+
+    console.log(value);
+    console.log(name);
+  };
+
+  const updateArticle = async (id: number | string) => {
+    const response = await axios.put(`http://localhost:1337/api/articles/${id}`, {
+      ...newInputValue,
+    });
+    console.log(response);
+  };
 
   return (
     <div>
@@ -27,12 +66,33 @@ const PaginationPatch = () => {
         <InputWrap>
           <h2>게시글 수정하기</h2>
           <div>
-            <input type="text" name="title" id="title" value={article?.attributes.title} />
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={title}
+              placeholder={article?.attributes.title}
+              onChange={handleNewInputs}
+            />
           </div>
           <div>
-            <input type="text" name="description" id="description" value={article?.attributes.description} />
+            <input
+              type="text"
+              name="description"
+              id="description"
+              value={description}
+              placeholder={article?.attributes.description}
+              onChange={handleNewInputs}
+            />
           </div>
-          <input id="submit_btn" type="button" value="수정" />
+          <input
+            id="submit_btn"
+            type="button"
+            value="수정"
+            onClick={() => {
+              updateArticle(`${id}`), navigate(-2);
+            }}
+          />
         </InputWrap>
       </ContentWrap>
     </div>
