@@ -29,3 +29,10 @@ export const removeArticle = async (id: string | number) => {
     console.log(response);
   }
 };
+
+export const updateArticle = async (id: number | string, data: ArticleCreateValue) => {
+  const response = await api.put(`http://localhost:1337/api/articles/${id}`, {
+    ...data,
+  });
+  console.log(response);
+};

@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail } from '../hooks/article.hook';
 import { ArticleCreateValue } from '../types/article';
-import axios from 'axios';
-import { createLogicalOr } from 'typescript';
+import { updateArticle } from '../networks/article';
 
 const PaginationPatch = () => {
   const navigate = useNavigate();
@@ -48,13 +47,6 @@ const PaginationPatch = () => {
     console.log(name);
   };
 
-  const updateArticle = async (id: number | string) => {
-    const response = await axios.put(`http://localhost:1337/api/articles/${id}`, {
-      ...newInputValue,
-    });
-    console.log(response);
-  };
-
   return (
     <div>
       <Header>[PATCH] Article page</Header>
@@ -90,7 +82,7 @@ const PaginationPatch = () => {
             type="button"
             value="수정"
             onClick={() => {
-              updateArticle(`${id}`), navigate(-2);
+              updateArticle(`${id}`, newInputValue), navigate(-2);
             }}
           />
         </InputWrap>
