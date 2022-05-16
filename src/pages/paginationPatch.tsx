@@ -42,9 +42,11 @@ const PaginationPatch = () => {
         },
       });
     }
+  };
 
-    console.log(value);
-    console.log(name);
+  const handleSubmit = async () => {
+    await updateArticle(`${id}`, newInputValue);
+    navigate(-2);
   };
 
   return (
@@ -77,14 +79,7 @@ const PaginationPatch = () => {
               onChange={handleNewInputs}
             />
           </div>
-          <input
-            id="submit_btn"
-            type="button"
-            value="수정"
-            onClick={() => {
-              updateArticle(`${id}`, newInputValue), navigate(-2);
-            }}
-          />
+          <input id="submit_btn" type="button" value="수정" onClick={handleSubmit} />
         </InputWrap>
       </ContentWrap>
     </div>
