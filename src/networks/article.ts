@@ -1,5 +1,6 @@
 import { api } from '../common/api';
 import { ArticleListRes, ArticleDetailRes, ArticleCreateValue } from '../types/article';
+import { sleep } from '../common/utils';
 
 // 보통
 // GET -> fetch or get
@@ -14,24 +15,27 @@ export const fetchArticleList = async (page: number | string, pageSize: number |
 };
 
 export const fetchArticleDetail = async (id: string | number) => {
-  const response = await api.get<ArticleDetailRes>(`api/articles/${id}`);
+  const response = await api.get<ArticleDetailRes>(`/api/articles/${id}`);
   return response;
 };
 
 export const createArticle = async (data: ArticleCreateValue) => {
-  const response = await api.post<ArticleCreateValue>(`api/articles`, data);
+  await sleep(3000);
+  const response = await api.post<ArticleCreateValue>(`/api/articles`, data);
   console.log(response);
 };
 
 export const removeArticle = async (id: string | number) => {
   if (confirm('현재 Article을 삭제하시겠습니까?')) {
-    const response = await api.delete<ArticleDetailRes>(`api/articles/${id}`);
+    await sleep(3000);
+    const response = await api.delete<ArticleDetailRes>(`/api/articles/${id}`);
     console.log(response);
   }
 };
 
 export const updateArticle = async (id: number | string, data: ArticleCreateValue) => {
-  const response = await api.put(`http://localhost:1337/api/articles/${id}`, {
+  await sleep(3000);
+  const response = await api.put(`/api/articles/${id}`, {
     ...data,
   });
   console.log(response);
