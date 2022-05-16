@@ -20,6 +20,8 @@ const PaginationPatch = () => {
     },
   });
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const { data } = newInputValue;
   const { title, description } = data;
 
@@ -56,7 +58,9 @@ const PaginationPatch = () => {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     await updateArticle(`${id}`, newInputValue);
+    setIsSubmitting(false);
     navigate(-2);
   };
 
@@ -90,7 +94,13 @@ const PaginationPatch = () => {
               onChange={handleNewInputs}
             />
           </div>
-          <input id="submit_btn" type="button" value="수정" onClick={handleSubmit} />
+          <input
+            id="submit_btn"
+            type="button"
+            value={isSubmitting ? '전송중..' : '수정'}
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          />
         </InputWrap>
       </ContentWrap>
     </div>
