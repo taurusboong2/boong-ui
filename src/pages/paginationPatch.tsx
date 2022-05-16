@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail } from '../hooks/article.hook';
@@ -22,6 +22,17 @@ const PaginationPatch = () => {
 
   const { data } = newInputValue;
   const { title, description } = data;
+
+  useEffect(() => {
+    if (article) {
+      setNewInputValue({
+        data: {
+          title: article.attributes.title,
+          description: article.attributes.description,
+        },
+      });
+    }
+  }, [article]);
 
   const handleNewInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
