@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useArticleDetail, useUpdateArticle } from '../hooks/article.hook';
-import { ArticleCreateValue } from '../types/article';
 
 const PaginationPatch = () => {
   const navigate = useNavigate();
@@ -13,50 +12,25 @@ const PaginationPatch = () => {
   const { article } = useArticleDetail(id);
   const { update, isSubmitting } = useUpdateArticle();
 
-  const [inputValue, setInputValue] = useState<ArticleCreateValue>({
-    data: {
-      title: '',
-      description: '',
-    },
-  });
-
-  const { data } = inputValue;
-  const { title, description } = data;
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (article) {
-      setInputValue({
-        data: {
-          title: article.attributes.title,
-          description: article.attributes.description,
-        },
-      });
+      if (titleInputRef.current && descriptionInputRef.current) {
+        titleInputRef.current.value = article.attributes.title;
+        descriptionInputRef.current.value = article.attributes.description;
+      }
     }
   }, [article]);
 
-  const handleNewInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    if (name == 'title') {
-      setInputValue({
-        ...inputValue,
-        data: {
-          title: value,
-          description: description,
-        },
-      });
-    } else if (name == 'description') {
-      setInputValue({
-        ...inputValue,
-        data: {
-          title: title,
-          description: value,
-        },
-      });
-    }
-  };
-
   const handleSubmit = async () => {
-    await update(id as string, inputValue);
+    await update(id as string, {
+      data: {
+        title: titleInputRef.current?.value as string,
+        description: descriptionInputRef.current?.value as string,
+      },
+    });
     navigate(-2);
   };
 
@@ -71,24 +45,10 @@ const PaginationPatch = () => {
         <InputWrap>
           <h2>게시글 수정하기</h2>
           <div>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              value={title}
-              placeholder={article?.attributes.title}
-              onChange={handleNewInputs}
-            />
+            <input ref={titleInputRef} type="text" name="title" id="title" />
           </div>
           <div>
-            <input
-              type="text"
-              name="description"
-              id="description"
-              value={description}
-              placeholder={article?.attributes.description}
-              onChange={handleNewInputs}
-            />
+            <input ref={descriptionInputRef} type="text" name="description" id="description" />
           </div>
           <input
             id="submit_btn"
