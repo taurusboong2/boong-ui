@@ -1,6 +1,7 @@
 import React, { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { range } from '../common/utils';
 
 interface currentPageType {
   startIndex: number;
@@ -20,11 +21,8 @@ const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }
   const NumPageSize = Number(pageSize);
 
   const pageList: number[] = useMemo(() => {
-    const pages: number[] = [];
-    for (let i = 1; i <= Math.ceil(totalArticles / NumPageSize); i++) {
-      pages.push(i);
-    }
-    return pages;
+    const pageCount = Math.ceil(totalArticles / NumPageSize); // 이렇게 계산하지 말고 strapi에서 주는 pageCount 값 사용
+    return pageCount ? range(1, pageCount + 1) : [];
   }, [totalArticles, NumPageSize]);
 
   const [currentPage, setCurrentPage] = useState<currentPageType>({
