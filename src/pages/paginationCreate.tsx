@@ -78,6 +78,15 @@ const PaginationCreate = () => {
             type="button"
             value="생성"
             onClick={() => {
+              if (!inputData.data.title) {
+                alert('타이틀 없어요');
+                return;
+              }
+              if (!inputData.data.description) {
+                alert('설명 없어요');
+                return;
+              }
+
               createArticle(inputData), navigate(-1);
             }}
           />
