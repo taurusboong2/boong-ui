@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useArticleDetail } from '../hooks/article.hook';
+import { useArticleDetail, useUpdateArticle } from '../hooks/article.hook';
 import { ArticleCreateValue } from '../types/article';
-import { updateArticle } from '../networks/article';
 
 const PaginationPatch = () => {
   const navigate = useNavigate();
@@ -12,22 +11,21 @@ const PaginationPatch = () => {
 
   const { id } = useParams();
   const { article } = useArticleDetail(id);
+  const { update, isSubmitting } = useUpdateArticle();
 
-  const [newInputValue, setNewInputValue] = useState<ArticleCreateValue>({
+  const [inputValue, setInputValue] = useState<ArticleCreateValue>({
     data: {
       title: '',
       description: '',
     },
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const { data } = newInputValue;
+  const { data } = inputValue;
   const { title, description } = data;
 
   useEffect(() => {
     if (article) {
-      setNewInputValue({
+      setInputValue({
         data: {
           title: article.attributes.title,
           description: article.attributes.description,
@@ -39,16 +37,16 @@ const PaginationPatch = () => {
   const handleNewInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     if (name == 'title') {
-      setNewInputValue({
-        ...newInputValue,
+      setInputValue({
+        ...inputValue,
         data: {
           title: value,
           description: description,
         },
       });
     } else if (name == 'description') {
-      setNewInputValue({
-        ...newInputValue,
+      setInputValue({
+        ...inputValue,
         data: {
           title: title,
           description: value,
@@ -58,9 +56,7 @@ const PaginationPatch = () => {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    await updateArticle(`${id}`, newInputValue);
-    setIsSubmitting(false);
+    await update(id as string, inputValue);
     navigate(-2);
   };
 

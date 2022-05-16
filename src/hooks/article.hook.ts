@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { fetchArticleDetail, fetchArticleList } from '../networks/article';
-import { Article, ArticleListItem } from '../types/article';
+import { fetchArticleDetail, fetchArticleList, updateArticle } from '../networks/article';
+import { Article, ArticleListItem, ArticleCreateValue } from '../types/article';
 
 export const useArticleDetail = (id?: number | string) => {
   const [article, setArticle] = useState<Article>();
@@ -35,4 +35,19 @@ export const useArticleList = (page?: number | string, pageSize?: number | strin
   }, [page, pageSize]);
 
   return { articlesData, totalSize };
+};
+
+export const useUpdateArticle = () => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const update = async (id: number | string, data: ArticleCreateValue) => {
+    setIsSubmitting(true);
+    await updateArticle(id, data);
+    setIsSubmitting(false);
+  };
+
+  return {
+    update,
+    isSubmitting,
+  };
 };
