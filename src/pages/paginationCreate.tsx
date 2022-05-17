@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { createArticle } from '../networks/article';
 import { ArticleCreateValue } from '../types/article';
+import { useCreateArticle } from '../hooks/article.hook';
 
 const PaginationCreate = () => {
   const navigate = useNavigate();
   const pageGoBack = () => navigate(-1);
   const pageGoHome = () => navigate('/');
+
+  const { postArticle, iscreating } = useCreateArticle();
 
   const [inputData, setInputData] = useState<ArticleCreateValue>({
     data: {
@@ -38,6 +40,19 @@ const PaginationCreate = () => {
         },
       });
     }
+  };
+
+  const handleCreateButton = async () => {
+    if (!inputData.data.title) {
+      alert('타이틀 없어요');
+      return;
+    }
+    if (!inputData.data.description) {
+      alert('설명 없어요');
+      return;
+    }
+    await postArticle(inputData);
+    navigate(-1);
   };
 
   return (
@@ -73,23 +88,7 @@ const PaginationCreate = () => {
               onChange={inputValueChange}
             />
           </div>
-          <input
-            id="submit_btn"
-            type="button"
-            value="생성"
-            onClick={() => {
-              if (!inputData.data.title) {
-                alert('타이틀 없어요');
-                return;
-              }
-              if (!inputData.data.description) {
-                alert('설명 없어요');
-                return;
-              }
-
-              createArticle(inputData), navigate(-1);
-            }}
-          />
+          <input id="submit_btn" type="button" value={iscreating ? '생성중.. ' : '생성'} onClick={handleCreateButton} />
         </InputWrap>
       </ContentWrap>
     </div>
