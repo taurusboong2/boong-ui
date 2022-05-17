@@ -25,6 +25,15 @@ const PaginationPatch = () => {
   }, [article]);
 
   const handleSubmit = async () => {
+    if (!titleInputRef.current?.value) {
+      alert('타이틀란이 공란입니다.');
+      return;
+    }
+    if (!descriptionInputRef.current?.value) {
+      alert('설명란이 공란입니다.');
+      return;
+    }
+
     await update(id as string, {
       data: {
         title: titleInputRef.current?.value as string,

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { ArticleCreateValue } from '../types/article';
 import { useCreateArticle } from '../hooks/article.hook';
 
 const PaginationCreate = () => {
@@ -11,47 +10,24 @@ const PaginationCreate = () => {
 
   const { postArticle, iscreating } = useCreateArticle();
 
-  const [inputData, setInputData] = useState<ArticleCreateValue>({
-    data: {
-      title: '',
-      description: '',
-    },
-  });
-
-  const { data } = inputData;
-  const { title, description } = data;
-
-  const inputValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { value, name } = e.target;
-    if (name == 'title') {
-      setInputData({
-        ...inputData,
-        data: {
-          title: value,
-          description: description,
-        },
-      });
-    } else if (name == 'description') {
-      setInputData({
-        ...inputData,
-        data: {
-          title: title,
-          description: value,
-        },
-      });
-    }
-  };
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleCreateButton = async () => {
-    if (!inputData.data.title) {
-      alert('타이틀 없어요');
+    if (!titleInputRef.current?.value) {
+      alert('제목이 없습니다.');
       return;
     }
-    if (!inputData.data.description) {
-      alert('설명 없어요');
+    if (!descriptionInputRef.current?.value) {
+      alert('내용이 없습니다');
       return;
     }
-    await postArticle(inputData);
+    await postArticle({
+      data: {
+        title: titleInputRef.current?.value as string,
+        description: descriptionInputRef.current?.value as string,
+      },
+    });
     navigate(-1);
   };
 
@@ -67,25 +43,17 @@ const PaginationCreate = () => {
           <h2>새로운 게시글 작성</h2>
           <div>
             <label htmlFor="title">게시글 제목 입력칸</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="제목 입력"
-              value={title}
-              onChange={inputValueChange}
-            />
+            <input ref={titleInputRef} type="text" name="title" id="title" placeholder="제목 입력" />
           </div>
           <div>
             <label htmlFor="description">게시글 내용 입력칸</label>
             <textarea
+              ref={descriptionInputRef}
               name="description"
               id="des"
               cols={30}
               rows={5}
               placeholder="내용 입력"
-              value={description}
-              onChange={inputValueChange}
             />
           </div>
           <input id="submit_btn" type="button" value={iscreating ? '생성중.. ' : '생성'} onClick={handleCreateButton} />
