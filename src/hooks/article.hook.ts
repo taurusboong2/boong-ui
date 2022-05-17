@@ -19,6 +19,7 @@ export const useArticleDetail = (id?: number | string) => {
 export const useArticleList = (page?: number | string, pageSize?: number | string) => {
   const [articlesData, setArticlesData] = useState<ArticleListItem[]>();
   const [totalSize, setTotalSize] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
     if (!page || !pageSize) {
@@ -30,11 +31,12 @@ export const useArticleList = (page?: number | string, pageSize?: number | strin
         const articleMeta = res.meta;
         setArticlesData(articleData);
         setTotalSize(articleMeta.pagination.total);
+        setPageCount(articleMeta.pagination.pageCount);
       });
     })();
   }, [page, pageSize]);
 
-  return { articlesData, totalSize };
+  return { articlesData, totalSize, pageCount };
 };
 
 export const useUpdateArticle = () => {

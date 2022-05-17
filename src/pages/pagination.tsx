@@ -13,7 +13,7 @@ const Pagination: FC = () => {
   const pageSize = searchParams.get('pageSize') || undefined;
   const page = searchParams.get('page') || undefined;
 
-  const { articlesData, totalSize } = useArticleList(page, pageSize);
+  const { articlesData, totalSize, pageCount } = useArticleList(page, pageSize);
 
   const numPage = useMemo(() => {
     if (!totalSize || !pageSize) return 0;
@@ -94,13 +94,7 @@ const Pagination: FC = () => {
         })}
       </Main>
 
-      <Articles
-        page={page}
-        setPage={onHandlePageChange}
-        pageSize={pageSize}
-        numPage={numPage}
-        totalArticles={totalSize}
-      />
+      <Articles page={page} setPage={onHandlePageChange} pageSize={pageSize} numPage={numPage} pageCount={pageCount} />
     </Wrap>
   );
 };

@@ -1,7 +1,7 @@
 import React, { FC, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { range } from '../common/utils';
+import _ from 'lodash';
 
 interface currentPageType {
   startIndex: number;
@@ -13,17 +13,17 @@ type Props = {
   setPage: any;
   pageSize: number | string;
   numPage: number;
-  totalArticles: number;
+  pageCount: number;
 };
 
-const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, totalArticles }) => {
+const Articles: FC<Props> = ({ page, setPage, pageSize, numPage, pageCount }) => {
   const NumberPage = Number(page);
-  const NumPageSize = Number(pageSize);
 
   const pageList: number[] = useMemo(() => {
-    const pageCount = Math.ceil(totalArticles / NumPageSize); // 이렇게 계산하지 말고 strapi에서 주는 pageCount 값 사용
-    return pageCount ? range(1, pageCount + 1) : [];
-  }, [totalArticles, NumPageSize]);
+    const pageCountArray = _.range(1, pageCount + 1);
+    console.log(pageCountArray);
+    return pageCountArray;
+  }, [pageCount]);
 
   const [currentPage, setCurrentPage] = useState<currentPageType>({
     startIndex: 0,
