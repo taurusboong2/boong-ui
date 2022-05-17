@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchArticleDetail, fetchArticleList, updateArticle } from '../networks/article';
+import { fetchArticleDetail, fetchArticleList, updateArticle, removeArticle } from '../networks/article';
 import { Article, ArticleListItem, ArticleCreateValue } from '../types/article';
 
 export const useArticleDetail = (id?: number | string) => {
@@ -50,4 +50,16 @@ export const useUpdateArticle = () => {
     update,
     isSubmitting,
   };
+};
+
+export const useDeleteArticle = () => {
+  const [isdelete, setIsDelete] = useState<boolean>(false);
+
+  const deleteArticle = async (id: number | string | undefined) => {
+    if (!id) return;
+    setIsDelete(true);
+    await removeArticle(id);
+    setIsDelete(false);
+  };
+  return { deleteArticle, isdelete };
 };

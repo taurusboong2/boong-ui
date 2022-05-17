@@ -1,17 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
-import { useArticleDetail } from '../hooks/article.hook';
-import { removeArticle } from '../networks/article';
+import { useArticleDetail, useDeleteArticle } from '../hooks/article.hook';
 import { Link } from 'react-router-dom';
 
 const Detail = () => {
   const { id } = useParams();
   const { article } = useArticleDetail(id);
+  const { deleteArticle, isdelete } = useDeleteArticle();
+
   const navigate = useNavigate();
+
+  const handleRemove = async () => {
+    await deleteArticle(id);
+    navigate('/pagination?page=1&pageSize=10');
+  };
 
   if (!article) {
     return <div>로딩중...</div>;
+  }
+  if (isdelete) {
+    return <div>삭제중...</div>;
   }
 
   return (
@@ -25,11 +34,7 @@ const Detail = () => {
         <p>{article.attributes.description}</p>
       </MainWrap>
       <BtnWrap>
-        <button
-          className="deleteBtn"
-          onClick={() => {
-            removeArticle(`${id}`), navigate('/pagination?page=1&pageSize=10');
-          }}>
+        <button className="deleteBtn" onClick={handleRemove}>
           삭제
         </button>
         <button className="patchBtn">
